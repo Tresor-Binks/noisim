@@ -17,6 +17,7 @@ const schema = z.object({
     .optional()
     .or(z.literal('')),
   sujet: z.string().min(1, 'Veuillez choisir un sujet'),
+  poste: z.string().optional(),
   message: z.string().min(20, 'Le message doit contenir au moins 20 caractères'),
   rgpd: z.boolean().refine((v) => v === true, 'Vous devez accepter la politique de confidentialité'),
 })
@@ -30,40 +31,53 @@ interface Props {
 export function ContactForm({ subjects }: Props) {
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [cvFile, setCvFile] = useState<File | null>(null)
 
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
     reset,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   })
 
+  const sujet = watch('sujet')
+  const isRecruitment =
+    sujet?.toLowerCase().includes('recrutement') ||
+    sujet?.toLowerCase().includes('candidature')
+
   async function onSubmit(data: FormData) {
-  try {
-    setLoading(true)
+    try {
+      setLoading(true)
 
-    const response = await fetch('/api/contact', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
+      const formData = new FormData()
 
-    if (!response.ok) {
-      throw new Error('Erreur')
+      Object.entries(data).forEach(([key, value]) => {
+        formData.append(key, value as string)
+      })
+
+      if (cvFile) {
+        formData.append('cv', cvFile)
+      }
+
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (!response.ok) throw new Error('Erreur')
+
+      setSubmitted(true)
+      reset()
+      setCvFile(null)
+    } catch (error) {
+      alert("L'envoi du message a échoué.")
+    } finally {
+      setLoading(false)
     }
-
-    setSubmitted(true)
-    reset()
-  } catch (error) {
-    alert("L'envoi du message a échoué.")
-  } finally {
-    setLoading(false)
   }
-}
 
   if (submitted) {
     return (
@@ -71,16 +85,17 @@ export function ContactForm({ subjects }: Props) {
         <div className="w-20 h-20 bg-green-50 border-2 border-green-200 rounded-full flex items-center justify-center">
           <CheckCircle className="w-10 h-10 text-green-500" />
         </div>
+
         <div>
-          <h3 className="text-2xl font-black text-secondary mb-2">Message envoyé !</h3>
+          <h3 className="text-2xl font-black text-secondary mb-2">
+            Message envoyé !
+          </h3>
           <p className="text-gray-500 text-sm max-w-sm leading-relaxed">
             Merci pour votre message. Notre équipe vous répondra sous 24 heures ouvrées.
           </p>
         </div>
-        <button
-          onClick={() => setSubmitted(false)}
-          className="btn-secondary text-sm mt-2"
-        >
+
+        <button onClick={() => setSubmitted(false)} className="btn-secondary text-sm mt-2">
           Envoyer un autre message
         </button>
       </div>
@@ -89,7 +104,8 @@ export function ContactForm({ subjects }: Props) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
-      {/* Row 1 : Nom + Entreprise */}
+
+      {/* Nom + Entreprise */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <Field label="Nom complet" required error={errors.nom?.message}>
           <input
@@ -98,6 +114,7 @@ export function ContactForm({ subjects }: Props) {
             className={inputCls(!!errors.nom)}
           />
         </Field>
+
         <Field label="Entreprise" error={errors.entreprise?.message}>
           <input
             {...register('entreprise')}
@@ -107,7 +124,7 @@ export function ContactForm({ subjects }: Props) {
         </Field>
       </div>
 
-      {/* Row 2 : Email + Téléphone */}
+      {/* Email + Téléphone */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <Field label="Email professionnel" required error={errors.email?.message}>
           <input
@@ -117,6 +134,7 @@ export function ContactForm({ subjects }: Props) {
             className={inputCls(!!errors.email)}
           />
         </Field>
+
         <Field label="Téléphone" error={errors.telephone?.message}>
           <input
             {...register('telephone')}
@@ -129,13 +147,27 @@ export function ContactForm({ subjects }: Props) {
 
       {/* Sujet */}
       <Field label="Sujet" required error={errors.sujet?.message}>
-        <select {...register('sujet')} className={cn(inputCls(!!errors.sujet), 'bg-white')}>
+        <select
+          {...register('sujet')}
+          className={cn(inputCls(!!errors.sujet), 'bg-white')}
+        >
           <option value="">Sélectionnez un sujet…</option>
           {subjects.map((s) => (
             <option key={s} value={s}>{s}</option>
           ))}
         </select>
       </Field>
+
+      {/* Poste (recrutement uniquement) */}
+      {isRecruitment && (
+        <Field label="Poste souhaité" required>
+          <input
+            {...register('poste')}
+            placeholder="Ex : Ingénieur automatisme"
+            className={inputCls(false)}
+          />
+        </Field>
+      )}
 
       {/* Message */}
       <Field label="Message" required error={errors.message?.message}>
@@ -147,24 +179,35 @@ export function ContactForm({ subjects }: Props) {
         />
       </Field>
 
+      {/* CV upload (recrutement uniquement) */}
+      {isRecruitment && (
+        <Field label="Télécharger votre CV" required>
+          <input
+            type="file"
+            accept=".pdf,.doc,.docx"
+            onChange={(e) => setCvFile(e.target.files?.[0] || null)}
+            className={inputCls(false)}
+          />
+        </Field>
+      )}
+
       {/* RGPD */}
       <div>
-        <label className="flex items-start gap-3 cursor-pointer group">
+        <label className="flex items-start gap-3 cursor-pointer">
           <input
             {...register('rgpd')}
             type="checkbox"
-            className="mt-0.5 w-4 h-4 accent-primary"
+            className="mt-1 w-4 h-4 accent-primary"
           />
           <span className="text-gray-500 text-xs leading-relaxed">
-            J&apos;accepte que mes données soient utilisées pour traiter ma demande conformément à la{' '}
-            <a href="/politique-confidentialite" className="text-primary hover:underline">
-              politique de confidentialité
-            </a>{' '}
-            de NOISIM. <span className="text-primary">*</span>
+            J&apos;accepte que mes données soient utilisées conformément à la politique de confidentialité de NOISIM *
           </span>
         </label>
+
         {errors.rgpd && (
-          <p className="text-rose-500 text-xs mt-1 ml-7">{errors.rgpd.message}</p>
+          <p className="text-rose-500 text-xs mt-1 ml-6">
+            {errors.rgpd.message}
+          </p>
         )}
       </div>
 
@@ -172,7 +215,10 @@ export function ContactForm({ subjects }: Props) {
       <button
         type="submit"
         disabled={loading}
-        className={cn('btn-primary w-full justify-center text-base', loading && 'opacity-70 cursor-not-allowed')}
+        className={cn(
+          'btn-primary w-full justify-center text-base',
+          loading && 'opacity-70 cursor-not-allowed'
+        )}
       >
         {loading ? (
           <>
@@ -190,7 +236,7 @@ export function ContactForm({ subjects }: Props) {
   )
 }
 
-/* ── Helpers ─────────────────────────────────────────────────────── */
+/* ── HELPERS ───────────────────────────────────────────── */
 
 function inputCls(hasError: boolean) {
   return cn(

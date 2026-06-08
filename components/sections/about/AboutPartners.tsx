@@ -20,7 +20,7 @@ export function AboutPartners() {
       <div className="container-custom">
 
         <SectionHeader
-          tag="Partenaires & Certifications"
+          tag="Quelques partenaires"
           title="Un écosystème technologique d'excellence"
           description="NOISIM travaille dans les normes de la technologie industrielle mondial. Notre rigueur garanti la qualité et la conformité de chaque déploiement."
           className="mb-14"
@@ -45,32 +45,7 @@ export function AboutPartners() {
           ))}
         </div>
 
-        {/* Certifications strip */}
-        <AnimatedSection delay={500}>
-          <div className="bg-white border border-gray-100 rounded-2xl p-7">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-              <div className="flex items-center gap-3 shrink-0">
-                <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
-                  <Award className="w-5 h-5 text-primary" />
-                </div>
-                <span className="font-bold text-secondary text-sm">Reconnu par l'état congolais</span>
-              </div>
-              <div className="w-px h-10 bg-gray-100 hidden sm:block" />
-              <div className="flex flex-wrap gap-3">
-                {certifications.map((c) => (
-                  <span
-                    key={c}
-                    className="inline-flex items-center gap-1.5 bg-surface text-gray-700 text-xs font-medium px-3 py-1.5 rounded-full border border-gray-200"
-                  >
-                    <span className="w-1.5 h-1.5 bg-primary rounded-full" />
-                    {c}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </AnimatedSection>
-
+       
       </div>
     </section>
   )

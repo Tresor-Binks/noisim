@@ -5,7 +5,7 @@ import {
   ArrowLeft, ArrowRight, CheckCircle, TrendingUp,
   Monitor, Globe, Smartphone, CreditCard, Tag,
   ChevronRight, Zap, Shield, Users, BarChart3,
-  AlertCircle, Lightbulb,
+  AlertCircle, Lightbulb, Wallet,
 } from 'lucide-react'
 import { AnimatedSection } from '@/components/shared/AnimatedSection'
 import { CTASection } from '@/components/sections/CTASection'
@@ -132,6 +132,40 @@ const modes = [
       { label: 'Vérification abonnement', detail: 'Si l\'abonnement est actif, la barrière s\'ouvre automatiquement — sans ralentir.' },
     ],
   },
+  {
+  title: "Paiement Physique Sécurisé",
+  subtitle: "Mode manuel assisté avec traçabilité complète",
+  description:
+    "Mode de passage classique permettant le paiement en espèces ou par terminal bancaire, avec enregistrement automatique pour garantir la traçabilité et la sécurité des transactions.",
+  icon: Wallet,
+  color: "from-gray-700 to-gray-900",
+  border: "border-gray-300",
+  bg: "bg-white",
+  num: "bg-gray-900 text-white",
+
+  steps: [
+    {
+      label: "Arrivée au poste",
+      detail:
+        "Le véhicule se présente à la cabine équipée d’un agent ou d’un terminal hybride.",
+    },
+    {
+      label: "Paiement physique",
+      detail:
+        "Le conducteur effectue le règlement en espèces ou via terminal de paiement.",
+    },
+    {
+      label: "Validation système",
+      detail:
+        "Le système enregistre la transaction et autorise automatiquement le passage.",
+    },
+    {
+      label: "Reçu sécurisé",
+      detail:
+        "Un reçu papier ou électronique est généré pour assurer la traçabilité.",
+    },
+  ],
+}
 ]
 
 const benefits = [
@@ -347,67 +381,86 @@ export default async function RealisationDetailPage({ params }: Props) {
       )}
 
       {/* ── PASSAGE MODES ─────────────────────────────────────── */}
-      {isTCS && (
-        <section className="section-padding bg-surface">
-          <div className="container-custom">
-            <AnimatedSection className="text-center mb-14">
-              <div className="flex items-center justify-center gap-3 mb-4">
-                <span className="w-8 h-0.5 bg-primary" />
-                <span className="text-primary text-xs font-bold uppercase tracking-[0.2em]">Modes de passage</span>
-                <span className="w-8 h-0.5 bg-primary" />
+{isTCS && (
+  <section className="section-padding bg-surface">
+    <div className="container-custom">
+      <AnimatedSection className="text-center mb-14">
+        <div className="flex items-center justify-center gap-3 mb-4">
+          <span className="w-8 h-0.5 bg-primary" />
+          <span className="text-primary text-xs font-bold uppercase tracking-[0.2em]">
+            Modes de passage
+          </span>
+          <span className="w-8 h-0.5 bg-primary" />
+        </div>
+
+        <h2 className="text-4xl font-black text-secondary leading-tight mb-4">
+          Trois modes, zéro rupture de service
+        </h2>
+
+        <p className="text-gray-500 max-w-xl mx-auto text-sm leading-relaxed">
+          Le TCS combine automatisation et accessibilité pour garantir un passage fluide, sécurisé et continu dans toutes les conditions.
+        </p>
+      </AnimatedSection>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {modes.map((mode, i) => (
+          <AnimatedSection key={mode.title} delay={i * 120}>
+            <div className={`border-2 rounded-3xl overflow-hidden h-full ${mode.border}`}>
+
+              {/* Header */}
+              <div className={`bg-gradient-to-r ${mode.color} p-6 flex items-center gap-4`}>
+                <div className="w-14 h-14 bg-white/15 rounded-2xl flex items-center justify-center">
+                  <mode.icon className="w-7 h-7 text-white" />
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-black text-white leading-tight">
+                    {mode.title}
+                  </h3>
+                  <p className="text-white/70 text-xs font-medium mt-0.5">
+                    {mode.subtitle}
+                  </p>
+                </div>
               </div>
-              <h2 className="text-4xl font-black text-secondary leading-tight mb-4">
-                Deux modes, zéro personnel aux cabines
-              </h2>
-              <p className="text-gray-500 max-w-xl mx-auto text-sm leading-relaxed">
-                Le TCS supprime la dépendance au personnel de cabine grâce à deux technologies d&apos;accès automatisé complémentaires.
-              </p>
-            </AnimatedSection>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {modes.map((mode, i) => (
-                <AnimatedSection key={mode.title} delay={i * 120}>
-                  <div className={`border-2 rounded-3xl overflow-hidden h-full ${mode.border}`}>
+              {/* Body */}
+              <div className={`p-7 ${mode.bg}`}>
+                <p className="text-gray-700 text-sm leading-relaxed mb-7">
+                  {mode.description}
+                </p>
 
-                    {/* Header */}
-                    <div className={`bg-gradient-to-r ${mode.color} p-6 flex items-center gap-4`}>
-                      <div className="w-14 h-14 bg-white/15 rounded-2xl flex items-center justify-center">
-                        <mode.icon className="w-7 h-7 text-white" />
-                      </div>
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">
+                  Étapes du passage
+                </p>
+
+                <div className="space-y-4">
+                  {mode.steps.map((step, j) => (
+                    <div key={step.label} className="flex items-start gap-4">
+                      <span
+                        className={`w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-black shrink-0 mt-0.5 ${mode.num}`}
+                      >
+                        {j + 1}
+                      </span>
+
                       <div>
-                        <h3 className="text-xl font-black text-white leading-tight">{mode.title}</h3>
-                        <p className="text-white/70 text-xs font-medium mt-0.5">{mode.subtitle}</p>
+                        <p className="font-semibold text-secondary text-sm">
+                          {step.label}
+                        </p>
+                        <p className="text-gray-500 text-xs leading-relaxed mt-0.5">
+                          {step.detail}
+                        </p>
                       </div>
                     </div>
-
-                    {/* Body */}
-                    <div className={`p-7 ${mode.bg}`}>
-                      <p className="text-gray-700 text-sm leading-relaxed mb-7">{mode.description}</p>
-
-                      <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">
-                        Étapes du passage
-                      </p>
-                      <div className="space-y-4">
-                        {mode.steps.map((step, j) => (
-                          <div key={step.label} className="flex items-start gap-4">
-                            <span className={`w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-black shrink-0 mt-0.5 ${mode.num}`}>
-                              {j + 1}
-                            </span>
-                            <div>
-                              <p className="font-semibold text-secondary text-sm">{step.label}</p>
-                              <p className="text-gray-500 text-xs leading-relaxed mt-0.5">{step.detail}</p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </AnimatedSection>
-              ))}
+                  ))}
+                </div>
+              </div>
             </div>
-          </div>
-        </section>
-      )}
+          </AnimatedSection>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
 
       {/* ── BENEFITS ──────────────────────────────────────────── */}
       <section className="section-padding bg-gradient-to-br from-secondary to-dark relative overflow-hidden">

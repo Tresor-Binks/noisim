@@ -12,7 +12,7 @@ export const projects: Project[] = [
     problem:
       'Les opérateurs de péage traditionnels font face à des défis structurels : fraude du personnel au guichet, absence de traçabilité des transactions, impossibilité de piloter en temps réel les recettes multi-sites, et infrastructure coûteuse en ressources humaines. Les usagers réguliers subissent des files d\'attente chroniques, sans aucun moyen de paiement dématérialisé.',
     solution:
-      'Le Toll Control System est une solution écosystème composée de trois applications complémentaires interconnectées, couvrant tous les acteurs du péage : la direction, le personnel d\'exploitation, et les usagers. Deux modes de passage automatisé éliminent la nécessité de personnel aux cabines : le passage par carte prépayée avec badgeage RFID/NFC, et le passage par abonnement avec tag véhicule à reconnaissance automatique.',
+      'Le Toll Control System est une solution écosystème composée de trois applications complémentaires interconnectées, couvrant tous les acteurs du péage : la direction, le personnel d\'exploitation, et les usagers. Deux des modes de passage sont automatisés éliminant ainsi la nécessité de personnel aux cabines : le passage par carte prépayée avec badgeage RFID/NFC, et le passage par abonnement avec tag véhicule à reconnaissance automatique.',
     results: [
       'Élimination totale de la fraude aux postes de péage grâce à l\'automatisation',
       'Réduction de 70 % des coûts opérationnels liés au personnel de cabine',

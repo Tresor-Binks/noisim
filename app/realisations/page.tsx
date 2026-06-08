@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import {
   ArrowRight, Monitor, Globe, Smartphone,
-  CreditCard, Tag, TrendingUp, ChevronRight,
+  CreditCard, Tag, TrendingUp, ChevronRight, Wallet,
 } from 'lucide-react'
 import { AnimatedSection } from '@/components/shared/AnimatedSection'
 import { SectionHeader } from '@/components/shared/SectionHeader'
@@ -68,6 +68,24 @@ const tcsModes = [
     iconColor: 'bg-primary/10 text-primary',
     numColor: 'bg-primary/10 text-primary',
   },
+  {
+  title: "Paiement Physique Sécurisé",
+  icon: Wallet,
+  color: "border-gray-200 bg-white",
+  iconColor: "bg-gray-900 text-white",
+  numColor: "bg-gray-900 text-white",
+
+  description:
+    "Mode de passage assisté permettant le paiement en espèces ou par terminal bancaire, avec enregistrement automatique pour garantir la traçabilité et la sécurité des transactions.",
+
+  steps: [
+    "Arrivée du véhicule au poste de péage assisté",
+    "Paiement en espèces ou par terminal bancaire",
+    "Validation automatique de la transaction",
+    "Ouverture de la barrière et enregistrement du passage",
+    "Émission d’un reçu physique ou électronique",
+  ],
+}
 ]
 
 export default function RealisationsPage() {
@@ -208,50 +226,63 @@ export default function RealisationsPage() {
         </div>
       </section>
 
-      {/* ── PASSAGE MODES ─────────────────────────────────────── */}
-      <section className="section-padding bg-white">
-        <div className="container-custom">
-          <SectionHeader
-            tag="Modes de passage"
-            title="Deux modes 100 % sans contact"
-            description="Le TCS élimine le passage en cabine. Deux technologies complémentaires couvrent tous les profils d'usagers."
-            className="mb-14"
-          />
+<section className="section-padding bg-white">
+  <div className="container-custom">
+    <SectionHeader
+      tag="Modes de passage"
+      title="Trois modes de passage adaptés à tous les usagers"
+      description="Le TCS combine automatisation, sans contact et solution assistée pour garantir un passage fluide dans toutes les conditions."
+      className="mb-14"
+    />
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {tcsModes.map((mode, i) => (
-              <AnimatedSection key={mode.title} delay={i * 120}>
-                <div className={`border-2 rounded-3xl p-8 h-full ${mode.color}`}>
-                  {/* Icon + title */}
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${mode.iconColor}`}>
-                      <mode.icon className="w-7 h-7" />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-black text-secondary">{mode.title}</h3>
-                      <p className="text-xs text-gray-400 font-medium mt-0.5">Mode de passage automatisé</p>
-                    </div>
-                  </div>
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      {tcsModes.map((mode, i) => (
+        <AnimatedSection key={mode.title} delay={i * 120}>
+          <div className={`border-2 rounded-3xl p-8 h-full ${mode.color}`}>
 
-                  <p className="text-gray-700 leading-relaxed mb-7 text-sm">{mode.description}</p>
+            {/* Icon + title */}
+            <div className="flex items-center gap-4 mb-6">
+              <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${mode.iconColor}`}>
+                <mode.icon className="w-7 h-7" />
+              </div>
 
-                  {/* Steps */}
-                  <div className="space-y-3">
-                    {mode.steps.map((step, j) => (
-                      <div key={step} className="flex items-start gap-3">
-                        <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black shrink-0 mt-0.5 ${mode.numColor}`}>
-                          {j + 1}
-                        </span>
-                        <span className="text-gray-700 text-sm leading-relaxed">{step}</span>
-                      </div>
-                    ))}
-                  </div>
+              <div>
+                <h3 className="text-xl font-black text-secondary">
+                  {mode.title}
+                </h3>
+                <p className="text-xs text-gray-400 font-medium mt-0.5">
+                  Mode de passage automatisé
+                </p>
+              </div>
+            </div>
+
+            <p className="text-gray-700 leading-relaxed mb-7 text-sm">
+              {mode.description}
+            </p>
+
+            {/* Steps */}
+            <div className="space-y-3">
+              {mode.steps.map((step, j) => (
+                <div key={step} className="flex items-start gap-3">
+                  <span
+                    className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black shrink-0 mt-0.5 ${mode.numColor}`}
+                  >
+                    {j + 1}
+                  </span>
+
+                  <span className="text-gray-700 text-sm leading-relaxed">
+                    {step}
+                  </span>
                 </div>
-              </AnimatedSection>
-            ))}
+              ))}
+            </div>
+
           </div>
-        </div>
-      </section>
+        </AnimatedSection>
+      ))}
+    </div>
+  </div>
+</section>
 
       {/* ── COMING SOON STRIP ─────────────────────────────────── */}
       <section className="py-16 bg-surface border-y border-gray-100">
