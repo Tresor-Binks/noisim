@@ -43,16 +43,13 @@ export function Header() {
         <div className="flex items-center justify-between h-16 lg:h-20">
           <Link href="/" className="flex items-center gap-2 group">
             <Image
-              src="/logo.png"
+              src="/logo-noisim.png"
               alt="Logo Noisim"
-              width={60}
+              width={160}
               height={60}
               priority
             />
 
-            <span className="font-black text-xl tracking-tight text-secondary">
-              NOISIM
-            </span>
           </Link>
 
           <nav className="hidden lg:flex items-center gap-1">
