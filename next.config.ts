@@ -1,13 +1,12 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // Supprime ou commente cette ligne :
+  // output: 'export', 
+  
+  // Tu peux laisser ou enlever ça selon tes besoins en images
   images: {
-    domains: ['images.unsplash.com', 'source.unsplash.com'],
-    formats: ['image/webp', 'image/avif'],
-  },
-  experimental: {
-    optimizeCss: true,
+    unoptimized: true, 
   },
 };
 
-export default nextConfig;
+module.exports = nextConfig;
