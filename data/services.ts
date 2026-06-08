@@ -3,212 +3,487 @@ import type { Service } from '@/types'
 export const services: Service[] = [
   {
     id: '1',
-    slug: 'mobilite-infrastructures-urbaines',
-    title: 'Mobilité & Infrastructures Urbaines',
-    shortDescription: 'Systèmes de péage automatisé et parkings intelligents pour fluidifier le trafic et sécuriser les revenus.',
-    description: 'NOISIM conçoit et déploie des systèmes de péage automatisé et de gestion de parking intelligente adaptés aux réalités africaines. De la barrière RFID au centre de supervision centralisé, nous sécurisons 100 % des recettes et supprimons la fraude sur les postes manuels.',
+    slug: 'mobilite-transport-infrastructures-routieres',
+    title: 'Mobilité, Transport & Infrastructures Routières',
+    shortDescription:
+      'Solutions intelligentes pour la gestion des axes routiers, le péage, le pesage et le stationnement.',
+    description:
+      'NOISIM accompagne les gestionnaires d’infrastructures routières dans la modernisation de leurs systèmes grâce à des solutions de péage automatisé, de pesage dynamique et de gestion intelligente des parkings. Nos technologies permettent de sécuriser les recettes, fluidifier le trafic et améliorer l’expérience des usagers.',
+
     icon: 'Car',
+
     benefits: [
-      'Sécurisation complète des recettes collectées',
-      'Réduction des files d\'attente de 60 %',
-      'Suppression de la fraude sur les postes manuels',
-      'Supervision centralisée multi-sites en temps réel',
-      'Retour sur investissement en 12 à 24 mois',
-      'Intégration paiement mobile et cashless',
+      'Sécurisation des recettes collectées',
+      'Réduction des files d’attente',
+      'Gestion centralisée multi-sites',
+      'Automatisation des opérations',
+      'Suivi en temps réel des flux',
+      'Intégration avec les systèmes existants',
     ],
+
     process: [
-      { step: 1, title: 'Audit & Dimensionnement', description: 'Étude du trafic, des flux et des contraintes du site pour définir l\'architecture optimale.' },
-      { step: 2, title: 'Conception Système', description: 'Design des voies, choix des équipements (lecteurs RFID, barrières, caméras) et architecture logicielle.' },
-      { step: 3, title: 'Installation & Câblage', description: 'Déploiement sur site par nos techniciens certifiés, avec coordination des travaux civils.' },
-      { step: 4, title: 'Paramétrage & Tests', description: 'Configuration des tarifs, profils utilisateurs, intégration paiement et tests de charge complets.' },
-      { step: 5, title: 'Formation & Support', description: 'Formation des équipes exploitantes et contrat de maintenance préventive inclus.' },
+      {
+        step: 1,
+        title: 'Étude & Analyse',
+        description:
+          'Analyse des flux routiers et des besoins opérationnels.',
+      },
+      {
+        step: 2,
+        title: 'Conception',
+        description:
+          'Définition de l’architecture matérielle et logicielle.',
+      },
+      {
+        step: 3,
+        title: 'Installation',
+        description:
+          'Déploiement des équipements et infrastructures.',
+      },
+      {
+        step: 4,
+        title: 'Configuration',
+        description:
+          'Paramétrage des systèmes et intégration.',
+      },
+      {
+        step: 5,
+        title: 'Formation & Support',
+        description:
+          'Accompagnement des équipes et maintenance.',
+      },
     ],
+
     useCases: [
-      'Péage autoroutier automatisé multi-voies',
-      'Parking aéroport avec guidage dynamique',
-      'Centre de supervision multi-sites',
-      'Péage urbain avec paiement mobile',
-      'Contrôle d\'accès site industriel',
+      'Péage autoroutier automatisé',
+      'Système de pesage dynamique',
+      'Gestion intelligente de parking',
+      'Contrôle d’accès routier',
+      'Centre de supervision du trafic',
     ],
+
     faq: [
-      { question: 'Le système fonctionne-t-il sans connexion internet permanente ?', answer: 'Oui, nos systèmes sont conçus pour fonctionner en mode dégradé local. Les données sont synchronisées dès le retour de la connectivité.' },
-      { question: 'Quels modes de paiement sont supportés ?', answer: 'Espèces, carte bancaire, RFID, QR code, mobile money (MTN, Airtel) et abonnements prépayés.' },
-      { question: 'Quel est le délai de déploiement ?', answer: 'Un système péage standard est opérationnel en 8 à 16 semaines selon la taille du site.' },
+      {
+        question: 'Les systèmes peuvent-ils fonctionner hors ligne ?',
+        answer:
+          'Oui, les données sont enregistrées localement puis synchronisées dès le retour de la connexion.',
+      },
+      {
+        question: 'Les solutions sont-elles personnalisables ?',
+        answer:
+          'Oui, chaque déploiement est adapté aux contraintes du site.',
+      },
+      {
+        question: 'Proposez-vous la maintenance ?',
+        answer:
+          'Oui, nous proposons des contrats de maintenance préventive et corrective.',
+      },
     ],
   },
+
   {
     id: '2',
-    slug: 'gestion-de-flotte',
-    title: 'Gestion de Flotte',
-    shortDescription: 'Suivi GPS temps réel et optimisation logistique pour une maîtrise totale de vos actifs mobiles.',
-    description: 'NOISIM déploie des solutions de gestion de flotte complètes pour vous donner une visibilité totale sur vos véhicules et équipements. Géolocalisation temps réel, suivi de carburant, optimisation des itinéraires et reporting automatisé — tout ce qu\'il faut pour réduire vos coûts et éliminer les abus.',
-    icon: 'Truck',
+    slug: 'energie-electricite-industrielle',
+    title: 'Énergie & Électricité Industrielle',
+
+    shortDescription:
+      'Conception et réalisation d’installations électriques et énergétiques fiables et durables.',
+
+    description:
+      'NOISIM intervient dans le domaine de l’énergie et de l’électricité industrielle pour concevoir, installer et maintenir des infrastructures performantes. Nous développons également des solutions photovoltaïques adaptées aux besoins des entreprises, collectivités et sites isolés.',
+
+    icon: 'Zap',
+
     benefits: [
-      'Réduction de la consommation carburant de 15 à 25 %',
-      'Élimination des détournements de carburant',
-      'Amélioration du taux de disponibilité des véhicules',
-      'Réduction des coûts de maintenance de 20 %',
-      'Alertes géofencing et comportements de conduite',
-      'Reporting automatisé par véhicule et conducteur',
+      'Réduction des coûts énergétiques',
+      'Fiabilité accrue des installations',
+      'Optimisation de la consommation',
+      'Solutions adaptées aux environnements industriels',
+      'Maintenance préventive et corrective',
+      'Intégration des énergies renouvelables',
     ],
+
     process: [
-      { step: 1, title: 'Inventaire Flotte', description: 'Recensement de vos véhicules, équipements et habitudes d\'utilisation actuelles.' },
-      { step: 2, title: 'Installation Boîtiers', description: 'Pose des boîtiers GPS et sondes carburant par nos techniciens sur l\'ensemble de votre parc.' },
-      { step: 3, title: 'Configuration Plateforme', description: 'Paramétrage des alertes, zones géographiques, profils conducteurs et règles métier.' },
-      { step: 4, title: 'Intégration SI', description: 'Connexion avec votre ERP, logiciel de paie ou système de maintenance existant.' },
-      { step: 5, title: 'Formation & Prise en Main', description: 'Formation des gestionnaires de flotte et des responsables logistiques à la plateforme web & mobile.' },
+      {
+        step: 1,
+        title: 'Audit Énergétique',
+        description:
+          'Analyse des besoins et de la consommation énergétique.',
+      },
+      {
+        step: 2,
+        title: 'Conception Technique',
+        description:
+          'Dimensionnement des équipements et schémas électriques.',
+      },
+      {
+        step: 3,
+        title: 'Installation',
+        description:
+          'Mise en œuvre des équipements sur site.',
+      },
+      {
+        step: 4,
+        title: 'Tests & Mise en Service',
+        description:
+          'Validation des performances et sécurité.',
+      },
+      {
+        step: 5,
+        title: 'Suivi & Maintenance',
+        description:
+          'Assistance continue et maintenance des installations.',
+      },
     ],
+
     useCases: [
-      'Suivi temps réel d\'une flotte de 200 camions',
-      'Alerte automatique sortie de zone autorisée',
-      'Rapport mensuel carburant par conducteur',
-      'Optimisation des tournées de livraison',
-      'Maintenance préventive pilotée par le kilométrage',
+      'Centrale solaire photovoltaïque',
+      'Électrification industrielle',
+      'Installation électrique bâtiment',
+      'Alimentation d’équipements lourds',
+      'Modernisation de réseaux électriques',
     ],
+
     faq: [
-      { question: 'La plateforme est-elle accessible sur mobile ?', answer: 'Oui, une application mobile iOS et Android est incluse pour le suivi en déplacement.' },
-      { question: 'Comment sont gérés les véhicules sans réseau ?', answer: 'Les boîtiers stockent les données localement et les transmettent dès le retour en zone couverte.' },
-      { question: 'Peut-on intégrer des équipements non-véhicules (groupes électrogènes, engins) ?', answer: 'Oui, nous instrumentons tout type d\'actif mobile ou fixe nécessitant un suivi.' },
+      {
+        question: 'Réalisez-vous des installations solaires ?',
+        answer:
+          'Oui, nous concevons et installons des systèmes photovoltaïques autonomes ou hybrides.',
+      },
+      {
+        question: 'Intervenez-vous sur des sites industriels ?',
+        answer:
+          'Oui, nous réalisons des installations courant fort et courant faible.',
+      },
+      {
+        question: 'Assurez-vous la maintenance ?',
+        answer:
+          'Oui, nous assurons le suivi et la maintenance des installations.',
+      },
     ],
-  },
-  {
+  },  {
     id: '3',
-    slug: 'maintenance-industrielle-oil-gas',
-    title: 'Maintenance Industrielle — Oil & Gas',
-    shortDescription: 'Expertise critique en I&E, métrologie certifiée et maintenance prédictive pour la continuité de production.',
-    description: 'Sur les sites pétroliers et gaziers, une défaillance n\'est jamais anodine. NOISIM apporte une expertise pointue en Instrumentation & Électricité (I&E), maintenance mécanique spécialisée et étalonnage métrologique certifié pour garantir la précision du comptage fiscal et la sécurité des installations.',
-    icon: 'Droplets',
+    slug: 'automatisation-regulation-robotique',
+    title: 'Automatisation, Régulation & Robotique',
+
+    shortDescription:
+      'Automatisation industrielle, instrumentation et régulation des processus pour optimiser vos performances.',
+
+    description:
+      'L’automatisation constitue le cœur du savoir-faire de NOISIM. Nous concevons, intégrons et maintenons des systèmes automatisés permettant d’améliorer la productivité, la qualité et la sécurité des opérations industrielles. Nos équipes interviennent sur les automates, systèmes de supervision, instrumentation et boucles de régulation.',
+
+    icon: 'Cpu',
+
     benefits: [
-      'Réduction des arrêts non planifiés de 70 à 80 %',
-      'Précision métrologique certifiée pour le comptage fiscal',
-      'Conformité ATEX, API et incendi garantie',
-      'Réduction des coûts de maintenance de 30 %',
-      'Traçabilité complète de toutes les interventions',
-      'Équipes disponibles 24h/24 sur sites critiques',
+      'Optimisation des processus industriels',
+      'Réduction des erreurs humaines',
+      'Amélioration de la productivité',
+      'Disponibilité accrue des équipements',
+      'Pilotage en temps réel',
+      'Réduction des coûts d’exploitation',
     ],
+
     process: [
-      { step: 1, title: 'Audit Technique', description: 'Évaluation de l\'état des équipements, de la documentation et des écarts par rapport aux normes en vigueur.' },
-      { step: 2, title: 'Plan de Maintenance', description: 'Élaboration d\'un plan de maintenance préventive et prédictive adapté à vos équipements critiques.' },
-      { step: 3, title: 'Étalonnage & I&E', description: 'Calibration des instruments de mesure, vérification des boucles de régulation et tests FAT/SAT.' },
-      { step: 4, title: 'Interventions Terrain', description: 'Exécution des travaux de maintenance mécanique, électrique et instrumentale par nos équipes certifiées.' },
-      { step: 5, title: 'GMAO & Reporting', description: 'Saisie de toutes les interventions dans la GMAO, rapports d\'intervention et suivi des KPIs maintenance.' },
+      {
+        step: 1,
+        title: 'Analyse du Processus',
+        description:
+          'Étude des opérations existantes et identification des axes d’amélioration.',
+      },
+      {
+        step: 2,
+        title: 'Conception de la Solution',
+        description:
+          'Définition de l’architecture d’automatisation et de supervision.',
+      },
+      {
+        step: 3,
+        title: 'Programmation',
+        description:
+          'Développement des programmes automates et interfaces opérateurs.',
+      },
+      {
+        step: 4,
+        title: 'Intégration & Tests',
+        description:
+          'Validation du fonctionnement avant mise en production.',
+      },
+      {
+        step: 5,
+        title: 'Maintenance & Support',
+        description:
+          'Assistance technique et amélioration continue.',
+      },
     ],
+
     useCases: [
-      'Révision d\'un train de compression offshore',
-      'Étalonnage de 350 instruments sur terminal pétrolier',
-      'Plan de maintenance prédictive sur raffinerie',
-      'Mise en conformité ATEX d\'une installation',
-      'Assistance à la mise en service (SAT) d\'une unité de traitement',
+      'Automatisation de station de pompage',
+      'Supervision SCADA',
+      'Instrumentation industrielle',
+      'Contrôle de processus automatisé',
+      'Maintenance de systèmes automatisés',
     ],
+
     faq: [
-      { question: 'Vos techniciens sont-ils certifiés ATEX ?', answer: 'Oui, l\'ensemble de nos techniciens intervenant en zone ATEX sont habilités conformément aux directives 94/9/CE et 99/92/CE.' },
-      { question: 'Proposez-vous des contrats de maintenance au forfait ?', answer: 'Oui, nous proposons des contrats annuels avec SLA définis, incluant les interventions préventives et une astreinte corrective.' },
-      { question: 'Intervenez-vous sur des marques d\'instruments spécifiques ?', answer: 'Nous maintenons des instruments de toutes marques (Rosemount, Yokogawa, Endress+Hauser, ABB) et sommes équipés des outils de calibration multimarques.' },
+      {
+        question: 'Travaillez-vous sur différents automates ?',
+        answer:
+          'Oui, nous intervenons sur Siemens, Schneider Electric, Allen-Bradley et d’autres marques industrielles.',
+      },
+      {
+        question: 'Proposez-vous la maintenance ?',
+        answer:
+          'Oui, nous assurons la maintenance préventive et corrective des systèmes automatisés.',
+      },
+      {
+        question: 'Pouvez-vous moderniser une installation existante ?',
+        answer:
+          'Oui, nous réalisons des migrations et mises à niveau sans interruption majeure des opérations.',
+      },
     ],
   },
+
   {
     id: '4',
-    slug: 'technologies-biomedicales',
-    title: 'Technologies Biomédicales',
-    shortDescription: 'Maintenance de haute précision des équipements médicaux pour garantir la fiabilité de vos plateaux techniques.',
-    description: 'La disponibilité des équipements médicaux est une question de vie ou de mort. NOISIM assure la maintenance préventive et corrective des plateaux techniques de santé avec des techniciens biomédicaux qualifiés, une GMAO dédiée et des temps d\'intervention garantis.',
-    icon: 'Heart',
+    slug: 'securite-electronique-protection-incendie',
+    title: 'Sécurité Électronique & Protection Incendie',
+
+    shortDescription:
+      'Des technologies avancées pour protéger les personnes, les infrastructures et les actifs sensibles.',
+
+    description:
+      'NOISIM conçoit et déploie des solutions de sécurité électronique intégrées comprenant la vidéosurveillance, le contrôle d’accès, les systèmes anti-intrusion et la protection incendie. Nos solutions assurent une surveillance permanente et une gestion centralisée de la sécurité.',
+
+    icon: 'Shield',
+
     benefits: [
-      'Disponibilité des équipements critiques garantie à 99 %',
-      'Temps d\'intervention inférieur à 4h sur les urgences',
-      'Conformité IEC 62353 et normes AFSSAPS',
-      'Réduction des coûts de 35 % vs prestataire constructeur',
-      'Gestion complète du parc biomédical via GMAO',
-      'Formation des équipes techniques hospitalières incluse',
+      'Protection renforcée des sites',
+      'Surveillance en temps réel',
+      'Détection rapide des incidents',
+      'Traçabilité des accès',
+      'Réduction des risques opérationnels',
+      'Conformité aux normes de sécurité',
     ],
+
     process: [
-      { step: 1, title: 'Inventaire Parc', description: 'Recensement et état des lieux de l\'ensemble des équipements médicaux du site.' },
-      { step: 2, title: 'Plan de Maintenance', description: 'Élaboration du plan de maintenance préventive selon les recommandations constructeurs et normes en vigueur.' },
-      { step: 3, title: 'Mise en GMAO', description: 'Intégration de tous les équipements dans notre GMAO avec historique et alertes d\'échéance.' },
-      { step: 4, title: 'Interventions Planifiées', description: 'Exécution des maintenances préventives selon le planning validé avec la direction des soins.' },
-      { step: 5, title: 'Astreinte Corrective', description: 'Prise en charge des pannes avec engagement de délai d\'intervention selon le niveau de criticité.' },
+      {
+        step: 1,
+        title: 'Évaluation des Risques',
+        description:
+          'Identification des zones sensibles et des besoins de protection.',
+      },
+      {
+        step: 2,
+        title: 'Conception',
+        description:
+          'Architecture des systèmes de sécurité et protection incendie.',
+      },
+      {
+        step: 3,
+        title: 'Installation',
+        description:
+          'Déploiement des équipements et câblage.',
+      },
+      {
+        step: 4,
+        title: 'Configuration',
+        description:
+          'Paramétrage des systèmes et intégration.',
+      },
+      {
+        step: 5,
+        title: 'Formation & Maintenance',
+        description:
+          'Formation des utilisateurs et suivi technique.',
+      },
     ],
+
     useCases: [
-      'Contrat de maintenance d\'un parc de 120 équipements CHU',
-      'Remise en état de bloc opératoire après sinistre',
-      'Calibration d\'appareils de mesure clinique',
-      'Vérification périodique des défibrillateurs',
-      'Support technique sur équipements de radiologie',
+      'Vidéosurveillance intelligente',
+      'Contrôle d’accès biométrique',
+      'Détection incendie',
+      'Protection périmétrique',
+      'Gestion centralisée des visiteurs',
     ],
+
     faq: [
-      { question: 'Intervenez-vous sur toutes les marques d\'équipements médicaux ?', answer: 'Oui, nos techniciens sont formés sur les équipements des principaux constructeurs : GE Healthcare, Philips, Siemens Healthineers, Mindray, Spacelabs.' },
-      { question: 'Quel est votre délai d\'intervention en cas de panne critique ?', answer: 'Pour les équipements vitaux (bloc opératoire, réanimation), notre engagement est une intervention sur site en moins de 2 heures.' },
-      { question: 'Fournissez-vous les pièces de rechange ?', answer: 'Oui, nous disposons d\'un stock de pièces critiques et gérons les commandes auprès des constructeurs et fournisseurs agréés.' },
+      {
+        question: 'Les systèmes peuvent-ils être supervisés à distance ?',
+        answer:
+          'Oui, nos solutions permettent une supervision locale et distante.',
+      },
+      {
+        question: 'Installez-vous les systèmes incendie ?',
+        answer:
+          'Oui, nous installons et maintenons les systèmes de détection et d’alarme incendie.',
+      },
+      {
+        question: 'Peut-on intégrer plusieurs systèmes ?',
+        answer:
+          'Oui, nous proposons une gestion centralisée de l’ensemble des équipements de sécurité.',
+      },
     ],
-  },
-  {
+  },  {
     id: '5',
-    slug: 'automation-intelligence-artificielle',
-    title: 'Automation & Intelligence Artificielle',
-    shortDescription: 'Intégration d\'algorithmes d\'IA pour l\'automatisation industrielle et le pilotage intelligent des processus.',
-    description: 'L\'automatisation intelligente est le cœur de métier de NOISIM. Nous concevons et intégrons des systèmes PLC/DCS, des interfaces SCADA modernes et des algorithmes d\'IA pour transformer vos processus industriels en opérations autonomes, plus productives et pilotées par la donnée.',
-    icon: 'Brain',
+    slug: 'solutions-numeriques-gestion-actifs',
+    title: 'Solutions Numériques & Gestion d’Actifs',
+
+    shortDescription:
+      'Développement logiciel, gestion de flotte et infrastructures réseau pour accélérer votre transformation digitale.',
+
+    description:
+      'NOISIM accompagne les entreprises dans leur transformation numérique grâce à des solutions logicielles sur mesure, des plateformes de gestion de flotte connectées et des infrastructures réseau performantes. Nous développons des outils adaptés aux besoins métier afin d’améliorer la productivité, la visibilité et la prise de décision.',
+
+    icon: 'MonitorSmartphone',
+
     benefits: [
-      'Productivité augmentée de 30 à 50 % sur les lignes automatisées',
-      'Taux de défauts réduit de 90 %+ par vision artificielle',
-      'Disponibilité 24h/24 sans dépendance à la main-d\'œuvre',
-      'Décisions opérationnelles basées sur les données',
-      'Intégration ERP/MES pour un pilotage bout en bout',
-      'ROI démontré en 18 à 36 mois',
+      'Digitalisation des processus métier',
+      'Suivi en temps réel des actifs',
+      'Amélioration de la productivité',
+      'Réduction des coûts opérationnels',
+      'Sécurisation des infrastructures réseau',
+      'Solutions évolutives et personnalisées',
     ],
+
     process: [
-      { step: 1, title: 'Analyse des Processus', description: 'Cartographie des processus existants, identification des points d\'automatisation à fort ROI.' },
-      { step: 2, title: 'Architecture Système', description: 'Conception de l\'architecture PLC/DCS, réseaux industriels et interfaces HMI/SCADA.' },
-      { step: 3, title: 'Développement & Programmation', description: 'Programmation des automates, développement des algorithmes d\'IA et des interfaces opérateurs.' },
-      { step: 4, title: 'Intégration & Tests FAT', description: 'Intégration sur site ou en atelier, tests fonctionnels complets et recette avec le client.' },
-      { step: 5, title: 'Démarrage & Formation', description: 'Mise en production accompagnée, formation des opérateurs et transfert de compétences.' },
+      {
+        step: 1,
+        title: 'Analyse des Besoins',
+        description:
+          'Compréhension des objectifs métier et des contraintes techniques.',
+      },
+      {
+        step: 2,
+        title: 'Conception',
+        description:
+          'Définition de l’architecture logicielle ou réseau adaptée.',
+      },
+      {
+        step: 3,
+        title: 'Développement & Déploiement',
+        description:
+          'Mise en œuvre de la solution et intégration dans l’environnement existant.',
+      },
+      {
+        step: 4,
+        title: 'Tests & Validation',
+        description:
+          'Contrôle qualité et validation des fonctionnalités.',
+      },
+      {
+        step: 5,
+        title: 'Support & Évolution',
+        description:
+          'Maintenance, assistance et amélioration continue.',
+      },
     ],
+
     useCases: [
-      'Automatisation complète d\'une ligne d\'embouteillage',
-      'Contrôle qualité visuel par caméra intelligente',
-      'Jumeau numérique d\'un procédé de fabrication',
-      'Optimisation temps réel d\'un four industriel',
-      'Maintenance prédictive par analyse vibratoire IA',
+      'Application métier sur mesure',
+      'Gestion de flotte GPS',
+      'Suivi d’actifs en temps réel',
+      'Infrastructure réseau d’entreprise',
+      'Tableaux de bord décisionnels',
     ],
+
     faq: [
-      { question: 'Quelles marques d\'automates maîtrisez-vous ?', answer: 'Nous sommes certifiés sur Siemens (S7-300/400/1500, TIA Portal), Schneider Electric (Modicon), Rockwell Automation (Allen-Bradley) et Beckhoff.' },
-      { question: 'Peut-on conserver nos équipements existants ?', answer: 'Dans la majorité des cas, oui. Nous réalisons un audit de compatibilité et intégrons au maximum l\'existant pour minimiser l\'investissement.' },
-      { question: 'Proposez-vous la cybersécurité des systèmes OT ?', answer: 'Oui, la sécurisation des réseaux industriels (segmentation IT/OT, pare-feu industriel, patch management) fait partie de notre offre.' },
+      {
+        question: 'Développez-vous des applications sur mesure ?',
+        answer:
+          'Oui, nous développons des solutions adaptées aux besoins spécifiques de chaque client.',
+      },
+      {
+        question: 'Proposez-vous des solutions de géolocalisation ?',
+        answer:
+          'Oui, nous intégrons des systèmes complets de suivi GPS et de gestion de flotte.',
+      },
+      {
+        question: 'Assurez-vous la maintenance des applications ?',
+        answer:
+          'Oui, nous proposons des contrats de maintenance et d’assistance technique.',
+      },
     ],
   },
+
   {
     id: '6',
-    slug: 'securite-electronique-incendi',
-    title: 'Sécurité Électronique & incendi',
-    shortDescription: 'Vidéosurveillance thermique, détection Fire & Gas et contrôle d\'accès pour les sites critiques.',
-    description: 'La sécurité des personnes, des biens et des installations est non négociable. NOISIM conçoit des systèmes de sécurité électronique intégrés — de la vidéosurveillance thermique périmétrique à la détection Fire & Gas certifiée SIL — adaptés aux contraintes des sites industriels et institutionnels sensibles.',
-    icon: 'Shield',
+    slug: 'ingenierie-technologies-biomedicales',
+    title: 'Ingénierie & Technologies Biomédicales',
+
+    shortDescription:
+      'Installation, étalonnage et maintenance des équipements biomédicaux pour garantir la qualité des soins.',
+
+    description:
+      'NOISIM met son expertise au service des établissements de santé pour assurer la disponibilité et la fiabilité des équipements biomédicaux. Nos interventions couvrent la fourniture, l’installation, l’étalonnage, la maintenance préventive et corrective ainsi que l’accompagnement technique des équipes médicales.',
+
+    icon: 'Heart',
+
     benefits: [
-      'Zéro intrusion non détectée sur le périmètre surveillé',
-      'Détection Fire & Gas en moins de 30 secondes',
-      'Traçabilité complète de tous les accès et événements',
-      'Conformité certifiée IEC 61508 et EN 54',
-      'Intégration sur une seule interface de supervision',
-      'Maintenance et astreinte 24h/24 sur sites critiques',
+      'Fiabilité accrue des équipements médicaux',
+      'Réduction des temps d’arrêt',
+      'Maintenance préventive planifiée',
+      'Respect des normes biomédicales',
+      'Sécurité renforcée des patients',
+      'Accompagnement technique spécialisé',
     ],
+
     process: [
-      { step: 1, title: 'Analyse des Risques', description: 'Évaluation des menaces, des zones à protéger et des exigences réglementaires incendi applicables.' },
-      { step: 2, title: 'Conception Système', description: 'Architecture technique : choix des capteurs, caméras, centrales et réseau de communication sécurisé.' },
-      { step: 3, title: 'Installation & Câblage', description: 'Déploiement par nos techniciens certifiés, dans le respect des normes ATEX si nécessaire.' },
-      { step: 4, title: 'Paramétrage & Intégration', description: 'Configuration des algorithmes de détection, règles d\'alarme et intégration sur la centrale de supervision.' },
-      { step: 5, title: 'Recette & Formation', description: 'Tests de performance, certification des systèmes F&G et formation des équipes incendi et sécurité.' },
+      {
+        step: 1,
+        title: 'Audit du Parc Biomédical',
+        description:
+          'Inventaire et évaluation des équipements existants.',
+      },
+      {
+        step: 2,
+        title: 'Planification',
+        description:
+          'Définition des opérations de maintenance et d’étalonnage.',
+      },
+      {
+        step: 3,
+        title: 'Installation & Calibration',
+        description:
+          'Mise en service et réglage des équipements médicaux.',
+      },
+      {
+        step: 4,
+        title: 'Maintenance',
+        description:
+          'Interventions préventives et correctives.',
+      },
+      {
+        step: 5,
+        title: 'Suivi Technique',
+        description:
+          'Rapports d’intervention et recommandations d’amélioration.',
+      },
     ],
+
     useCases: [
-      'Protection périmétrique thermique d\'un dépôt pétrolier',
-      'Système F&G certifié SIL2 sur plateforme gaz',
-      'Contrôle d\'accès biométrique multi-zones siège',
-      'Vidéosurveillance 360° d\'un site minier',
-      'Centrale de sécurité intégrée pour campus institutionnel',
+      'Maintenance d’équipements hospitaliers',
+      'Étalonnage de dispositifs médicaux',
+      'Installation de matériel biomédical',
+      'Gestion de parc biomédical',
+      'Support technique hospitalier',
     ],
+
     faq: [
-      { question: 'Vos systèmes Fire & Gas sont-ils certifiés SIL ?', answer: 'Oui, nous déployons des systèmes certifiés SIL1 et SIL2 selon IEC 61508/61511, avec documentation complète des Safety Cases.' },
-      { question: 'Les caméras thermiques fonctionnent-elles de nuit ?', answer: 'Oui, la détection thermique est indépendante de la lumière. Elle fonctionne 24h/24 et détecte les intrusions par chaleur corporelle.' },
-      { question: 'Peut-on intégrer les systèmes existants (CCTV, badge) ?', answer: 'Absolument. Nous intégrons les équipements existants sur une plateforme de supervision unifiée pour éviter les redondances.' },
+      {
+        question: 'Intervenez-vous sur différents types d’équipements ?',
+        answer:
+          'Oui, nous prenons en charge un large éventail d’équipements biomédicaux.',
+      },
+      {
+        question: 'Proposez-vous des contrats de maintenance ?',
+        answer:
+          'Oui, nous proposons des contrats adaptés aux besoins des établissements de santé.',
+      },
+      {
+        question: 'Assurez-vous l’étalonnage des équipements ?',
+        answer:
+          'Oui, nous réalisons les opérations de calibration et de vérification nécessaires.',
+      },
     ],
   },
 ]

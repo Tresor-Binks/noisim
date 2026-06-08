@@ -50,7 +50,7 @@ const subServices: Record<string, { label: string; desc: string }[]> = {
     { label: 'Réseaux Informatiques', desc: 'Architecture, câblage structuré et sécurisation des infrastructures réseau.' },
   ],
   'ingenierie-technologies-biomedicales': [
-    { label: 'Installation Équipements Médicaux', desc: 'Mise en service et vérification des conditions d\'utilisation des dispositifs médicaux.' },
+    { label: 'Fourniture et Installation d\'équipements Médicaux', desc: 'Mise en service et vérification des conditions d\'utilisation des dispositifs médicaux.' },
     { label: 'Étalonnage Métrologique', desc: 'Étalonnage certifié IEC 62353 des appareils de mesure médicaux.' },
     { label: 'Maintenance Biomédicale', desc: 'Contrats de maintenance préventive et corrective multi-marques.' },
   ],

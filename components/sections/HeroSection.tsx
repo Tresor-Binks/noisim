@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 
 export function HeroSection() {
-  const bgImages = ['/un.jpg', '/deux.jpg', '/trois.jpg']
+  const bgImages = ['/trois.jpg', '/péage1.png', '/péage2.png']
 
   return (
     <section
@@ -25,7 +25,7 @@ export function HeroSection() {
             className="absolute inset-0 opacity-0 animate-hero-slideshow"
             style={{
               backgroundImage: `url(${src})`,
-              backgroundPosition: 'center center',
+              backgroundPosition: 'center top',
               backgroundSize: 'cover',
               backgroundRepeat: 'no-repeat',
               animationDelay: `${index * 4}s`,
