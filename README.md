@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NOISIM — Site Corporate Next.js 15
 
-## Getting Started
+Site corporate premium pour NOISIM, entreprise spécialisée en automatisation industrielle et transformation digitale en Afrique centrale.
 
-First, run the development server:
+## Stack technique
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Framework** : Next.js 15 App Router
+- **Langage** : TypeScript strict
+- **UI** : Tailwind CSS
+- **Animations** : CSS transitions (compatible SSR)
+- **Icônes** : Lucide React
+
+## Structure du projet
+
+```
+src/
+├── app/                         # Pages (App Router)
+│   ├── layout.tsx               # Layout racine + SEO global
+│   ├── page.tsx                 # Accueil
+│   ├── about/page.tsx           # À propos (7 sections)
+│   ├── services/
+│   │   ├── page.tsx             # Listing services
+│   │   └── [slug]/page.tsx      # Détail service (dynamique)
+│   ├── realisations/
+│   │   ├── page.tsx             # Listing projets
+│   │   └── [slug]/page.tsx      # Étude de cas (dynamique)
+│   └── secteurs/
+│       ├── page.tsx             # Listing secteurs
+│       └── [slug]/page.tsx      # Détail secteur (dynamique)
+├── components/
+│   ├── layout/                  # Header + Footer
+│   ├── sections/                # Sections homepage
+│   │   └── about/               # Sections page À propos
+│   └── shared/                  # AnimatedSection, AnimatedCounter, SectionHeader
+├── data/                        # Données JSON/TS (services, projets, secteurs, blog)
+├── lib/utils.ts                 # Helpers (cn, formatDate)
+└── types/index.ts               # Types TypeScript
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Pages disponibles
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Route | Description |
+|-------|-------------|
+| `/` | Accueil avec Hero, Stats, Services, Process, Projets, Secteurs, CTA |
+| `/about` | À propos : Hero animé, Mission/Vision, Valeurs, Timeline, Équipe, Partenaires, Pourquoi NOISIM |
+| `/services` | Listing des 6 services |
+| `/services/[slug]` | Détail service : process, bénéfices, cas d'usage, FAQ |
+| `/realisations` | Portfolio des 6 projets |
+| `/realisations/[slug]` | Étude de cas complète + témoignage |
+| `/secteurs` | Listing des 6 secteurs d'activité |
+| `/secteurs/[slug]` | Détail secteur : enjeux, solutions, bénéfices, cas d'usage |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Installation
 
-## Learn More
+```bash
+npm install
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Déploiement Vercel
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+# Connecter le repo à Vercel
+vercel
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Ou via GitHub : importer le repo sur vercel.com
+# Build command : npm run build
+# Output directory : .next
+```
 
-## Deploy on Vercel
+## Identité visuelle
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Token | Valeur |
+|-------|--------|
+| Primary | `#00B8C4` |
+| Secondary | `#083A5E` |
+| Dark | `#051827` |
+| Accent | `#17D4E0` |
+| Surface | `#F8FAFC` |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+**NOISIM** — L'innovation au service de votre avenir  
+Pointe-Noire, Congo · contact@noisim.com

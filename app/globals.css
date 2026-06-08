@@ -1,26 +1,166 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --primary: #00B8C4;
+  --primary-dark: #009AA5;
+  --secondary: #083A5E;
+  --dark: #051827;
+  --accent: #17D4E0;
+  --surface: #F8FAFC;
+  --text-dark: #1A2332;
+  --text-muted: #64748B;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text-dark);
+  background: var(--surface);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #00B8C4;
+  border-radius: 3px;
+}
+
+/* Selection */
+::selection {
+  background: rgba(0, 184, 196, 0.2);
+  color: #051827;
+}
+
+@layer components {
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-padding {
+    @apply py-20 lg:py-28;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2 bg-primary text-white font-semibold px-6 py-3 rounded-lg
+           hover:bg-primary-600 transition-all duration-200 shadow-sm hover:shadow-card-hover;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 border-2 border-primary text-primary font-semibold px-6 py-3 rounded-lg
+           hover:bg-primary hover:text-white transition-all duration-200;
+  }
+
+  .btn-white {
+    @apply inline-flex items-center gap-2 bg-white text-secondary font-semibold px-6 py-3 rounded-lg
+           hover:bg-gray-50 transition-all duration-200 shadow-sm;
+  }
+
+  .btn-outline-white {
+    @apply inline-flex items-center gap-2 border-2 border-white text-white font-semibold px-6 py-3 rounded-lg
+           hover:bg-white hover:text-secondary transition-all duration-200;
+  }
+
+  .card {
+    @apply bg-white rounded-2xl shadow-card border border-gray-100 p-6 hover:shadow-card-hover transition-all duration-300;
+  }
+
+  .card-dark {
+    @apply bg-dark rounded-2xl border border-white/10 p-6 hover:border-primary/40 transition-all duration-300;
+  }
+
+  .section-tag {
+    @apply inline-flex items-center gap-2 text-primary font-semibold text-sm uppercase tracking-widest mb-4;
+  }
+
+  .heading-xl {
+    @apply text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight;
+  }
+
+  .heading-lg {
+    @apply text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight;
+  }
+
+  .heading-md {
+    @apply text-2xl sm:text-3xl font-bold leading-tight;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+  }
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 184, 196, 0.4); }
+  50% { box-shadow: 0 0 0 20px rgba(0, 184, 196, 0); }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes heroSlideshow {
+  0% {
+    opacity: 0;
+  }
+
+  8% {
+    opacity: 1;
+  }
+
+  28% {
+    opacity: 1;
+  }
+
+  36% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.animate-hero-slideshow {
+  animation: heroSlideshow 12s infinite;
+}
+
+html {
+  scroll-behavior: smooth;
 }
