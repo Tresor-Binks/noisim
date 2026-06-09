@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 
 export function HeroSection() {
-  const bgImages = ['/péage1.png', '/péage2.png', '/péage3.png']
+  const bgImages = ['/péage1.png', '/péage2.png', '/péage3.png', '/péage4.png']
 
   return (
     <section
