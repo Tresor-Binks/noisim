@@ -5,6 +5,7 @@ import { ServicesSection } from '@/components/sections/ServicesSection'
 import { ProcessSection } from '@/components/sections/ProcessSection'
 import { ProjectsSection } from '@/components/sections/ProjectsSection'
 import { SectorsSection } from '@/components/sections/SectorsSection'
+import { CEOWordSection } from '@/components/sections/CEOWordSection'
 import { CTASection } from '@/components/sections/CTASection'
 
 export const metadata: Metadata = {
@@ -21,6 +22,7 @@ export default function HomePage() {
       <ProcessSection />
       <ProjectsSection />
       <SectorsSection />
+      <CEOWordSection />
       <CTASection />
     </>
   )
