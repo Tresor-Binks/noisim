@@ -5,7 +5,6 @@ import { AboutMissionVision } from '@/components/sections/about/AboutMissionVisi
 import { AboutValues } from '@/components/sections/about/AboutValues'
 import { AboutTimeline } from '@/components/sections/about/AboutTimeline'
 import { AboutTeam } from '@/components/sections/about/AboutTeam'
-import { AboutPartners } from '@/components/sections/about/AboutPartners'
 import { AboutWhyUs } from '@/components/sections/about/AboutWhyUs'
 
 export const metadata: Metadata = {
