@@ -6,7 +6,7 @@ const partners = [
   { name: 'Siemens', category: 'Solution Partner', level: 'Certifié', color: 'text-[#009999]' },
   { name: 'Schneider Electric', category: 'Alliance Partner', level: 'Certifié', color: 'text-[#3DCD58]' },
   { name: 'Microsoft Azure', category: 'Cloud Partner', level: 'Silver', color: 'text-[#0078D4]' },
-  { name: 'ABB', category: 'Intégrateur', level: 'Agréé', color: 'text-[#FF000F]' },
+  { name: 'SANKMONEY', category: 'Agrégateur de paiement', level: 'Agréé', color: 'text-[#FF000F]' },
 ]
 
 const certifications = [

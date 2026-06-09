@@ -5,11 +5,11 @@ import { AnimatedSection } from '@/components/shared/AnimatedSection'
 const reasons = [
   {
     icon: Award,
-    title: 'Expertise reconnue internationalement',
+    title: 'Expertise reconnue',
     description:
-      'Certifiés par les plus grandes marques mondiales (Siemens, Schneider, ABB), nos ingénieurs sont formés et accrédités pour déployer les solutions les plus complexes.',
-    stat: '8 certifications',
-    statLabel: 'partenaires internationaux',
+      'Reconnu par l\'état congolais, actif dans plus de 5 pays en Afrique ayant des marché de grande envergure et une vision international',
+    stat: '+ 3',
+    statLabel: 'Années d\'existance',
   },
   {
     icon: TrendingUp,

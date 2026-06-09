@@ -6,50 +6,26 @@ const team = [
   {
     name: 'Melchisedek Nganga',
     role: 'Directeur Général & fondateur',
-    bio: 'Ingénieur en automatisation industrielle , 18 ans d\u2019expérience en industrie pétrolière et manufacturière. Ancien consultant chez Schneider Electric.',
+    bio: 'Notre ambition est de fournir des solutions technologiques fiables et innovantes, tout en bâtissant des relations durables avec nos clients.',
     expertise: ['Automatisation', 'Stratégie', 'Business Development'],
     initials: 'MN',
     color: 'from-primary to-secondary',
   },
   {
-    name: 'Christelle Mbemba',
-    role: 'Directrice Technique & Co-fondatrice',
-    bio: 'Docteure en informatique industrielle (Université de Bordeaux), spécialiste IoT et systèmes embarqués. 12 ans sur des projets critiques en énergie et télécoms.',
-    expertise: ['IoT / IIoT', 'Architecture SI', 'R&D'],
-    initials: 'CM',
+    name: 'Jeancia Boundou',
+    role: 'Chargée administrative',
+    bio: 'Mon rôle est de garantir le bon fonctionnement administratif de l\'entreprise pour accompagner notre croissance et satisfaire nos clients.',
+    expertise: ['Développement RH / paie', 'Administration général'],
+    initials: 'JB',
     color: 'from-accent to-primary',
   },
   {
-    name: 'Thomas Nguyen',
-    role: 'Directeur Data & IA',
-    bio: 'MSc Machine Learning (Imperial College London). Ex-lead data scientist chez Total Energies. Spécialiste de la maintenance prédictive et du deep learning industriel.',
-    expertise: ['Machine Learning', 'Data Engineering', 'IA Industrielle'],
-    initials: 'TN',
+    name: 'Dany Obiey',
+    role: 'Développeur fullstack',
+    bio: 'Travailler chez NOISIM, c\'est participer à des projets ambitieux, apprendre chaque jour et contribuer à des solutions utiles.',
+    expertise: ['Django', 'Angular', 'Flutter'],
+    initials: 'DO',
     color: 'from-secondary to-dark',
-  },
-  {
-    name: 'Sarah Diallo',
-    role: 'Directrice des Opérations',
-    bio: 'MBA INSEAD, ingénieure génie industriel. 14 ans de gestion de projets complexes multi-sites en Afrique et en Europe. Experte en conduite du changement.',
-    expertise: ['Project Management', 'Lean', 'Change Management'],
-    initials: 'SD',
-    color: 'from-primary/80 to-accent/80',
-  },
-  {
-    name: 'Marc Lebrun',
-    role: 'Responsable Cybersécurité OT/IT',
-    bio: 'Certifié CISSP et ICS/SCADA Security. Ancien expert ANSSI. Spécialiste de la convergence des systèmes IT/OT et de la sécurisation des infrastructures industrielles critiques.',
-    expertise: ['Cybersécurité OT', 'SCADA Security', 'Conformité'],
-    initials: 'ML',
-    color: 'from-dark to-secondary',
-  },
-  {
-    name: 'Isabelle Fontaine',
-    role: 'Responsable Transformation Digitale',
-    bio: 'Consultante senior en transformation digitale (ex-McKinsey Digital). Accompagne les directions générales dans la définition et l\u2019exécution de leurs feuilles de route numériques.',
-    expertise: ['Stratégie Digitale', 'ERP/MES', 'Coaching dirigeants'],
-    initials: 'IF',
-    color: 'from-primary to-primary/50',
   },
 ]
 
@@ -64,7 +40,7 @@ export function AboutTeam() {
         <SectionHeader
           tag="Notre Équipe"
           title="Des experts dédiés à votre réussite"
-          description="Une équipe pluridisciplinaire d\u2019ingénieurs, data scientists et consultants qui conjuguent expertise technique et sens des enjeux business."
+          description="Une équipe pluridisciplinaire d'ingénieurs et consultants qui conjuguent expertise technique et sens des enjeux business."
           light
           className="mb-14"
         />
