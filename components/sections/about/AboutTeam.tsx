@@ -88,7 +88,6 @@ export function AboutTeam() {
                   <button className="w-8 h-8 bg-white/8 rounded-lg flex items-center justify-center text-gray-400 hover:text-primary hover:bg-primary/15 transition-all duration-200" aria-label={`Email de ${member.name}`}>
                     <Mail className="w-4 h-4" />
                   </button>
-                  <span className="text-gray-600 text-xs ml-auto">NOISIM depuis {2015 + i * 1}</span>
                 </div>
 
               </div>
