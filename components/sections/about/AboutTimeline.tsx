@@ -3,57 +3,68 @@ import { SectionHeader } from '@/components/shared/SectionHeader'
 
 const milestones = [
   {
-    year: '2015',
-    quarter: 'Fondation',
-    title: 'La naissance de NOISIM',
-    description:
-      'Créée à Pointe-Noire par deux ingénieurs industriels, NOISIM démarre avec une conviction : les industries africaines méritent un accès aux mêmes technologies que les leaders mondiaux.',
-    highlight: 'Premier bureau, 3 collaborateurs',
-    side: 'left',
-  },
-  {
-    year: '2017',
-    quarter: 'Croissance',
-    title: 'Premier projet majeur d\u2019automatisation',
-    description:
-      'Automatisation complète d\u2019une ligne de production cimentière. Résultats : +22 points de disponibilité, -18% de consommation énergétique. Le modèle NOISIM est validé.',
-    highlight: 'ROI client atteint en 22 mois',
-    side: 'right',
-  },
-  {
-    year: '2019',
-    quarter: 'Expansion',
-    title: 'Rayonnement régional',
-    description:
-      'Ouverture du bureau de Brazzaville. Premiers contrats au Gabon et en RDC. L\u2019équipe passe à 15 experts. NOISIM s\u2019impose comme acteur régional de référence.',
-    highlight: '5 pays d\u2019Afrique centrale',
-    side: 'left',
-  },
-  {
-    year: '2021',
-    quarter: 'Diversification',
-    title: 'Lancement de la division IA & Data',
-    description:
-      'Constitution d\u2019une équipe dédiée à l\u2019intelligence artificielle appliquée. Première solution de maintenance prédictive déployée dans le secteur pétrolier. -78% d\u2019arrêts non planifiés.',
-    highlight: '8 data scientists & ML engineers',
-    side: 'right',
-  },
-  {
+    id: 'creation',
     year: '2023',
-    quarter: 'Maturité',
-    title: 'Le cap des 50 projets',
+    quarter: 'Création',
+    title: 'Naissance de NOISIM',
     description:
-      'plusieurs projets réalisés avec un taux de satisfaction client de 100%. NOISIM est désormais partenaire technologique de 4 des 10 plus grands groupes industriels d\u2019Afrique centrale.',
-    highlight: '99% satisfaction · 0 litige',
+      "Création de NOISIM avec pour mission d'accompagner les organisations dans leurs besoins technologiques et industriels. Les premières activités sont centrées sur la fourniture, l'installation et la maintenance d'équipements médicaux.",
+    highlight: 'Début des activités médicales',
     side: 'left',
   },
+
   {
-    year: '2024',
-    quarter: 'Reconnaissance',
-    title: 'Partenaire certifié Siemens',
+    id: 'developpement',
+    year: '',
+    quarter: 'Développement',
+    title: 'Consolidation de l’expertise technique',
     description:
-      'NOISIM obtient la certification Siemens Solution Partner pour l\u2019automatisation industrielle — une reconnaissance internationale de la qualité et de l\u2019expertise de nos équipes.',
-    highlight: 'Certification internationale',
+      "NOISIM renforce ses compétences terrain à travers plusieurs interventions techniques, projets d'installation, maintenance spécialisée et accompagnement de structures publiques et privées.",
+    highlight: 'Croissance du portefeuille clients',
+    side: 'right',
+  },
+
+  {
+    id: 'diversification',
+    year: '2024',
+    quarter: 'Diversification',
+    title: 'Ouverture vers de nouveaux secteurs',
+    description:
+      "L'entreprise élargit progressivement son offre en intégrant les domaines de l'automatisation, des systèmes connectés, du numérique et des solutions technologiques à forte valeur ajoutée.",
+    highlight: 'Nouveaux services technologiques',
+    side: 'left',
+  },
+
+  {
+    id: 'tcs',
+    year: '2025',
+    quarter: 'Innovation',
+    title: 'Lancement du projet TCS',
+    description:
+      "Début du développement du Toll Control System (TCS), une solution complète destinée à moderniser la gestion des postes de péage grâce à l'automatisation, au paiement dématérialisé et au suivi en temps réel des opérations.",
+    highlight: 'Première plateforme propriétaire',
+    side: 'right',
+  },
+
+  {
+    id: 'mobilite',
+    year: '2026',
+    quarter: 'Transformation',
+    title: 'NOISIM devient un acteur de la mobilité intelligente',
+    description:
+      "Le projet TCS devient un axe stratégique majeur. La solution combine applications web, mobile et desktop, technologies RFID/NFC, gestion des abonnements et automatisation des passages aux péages.",
+    highlight: 'Mobilité & Infrastructures routières',
+    side: 'left',
+  },
+
+  {
+    id: 'vision',
+    year: '',
+    quarter: 'Vision',
+    title: 'Construire les infrastructures de demain',
+    description:
+      "NOISIM poursuit son développement en proposant des solutions innovantes dans la santé, l'industrie, l'automatisation et les infrastructures intelligentes afin d'accompagner la transformation numérique des organisations africaines.",
+    highlight: 'Innovation durable',
     side: 'right',
   },
 ]
@@ -66,7 +77,7 @@ export function AboutTimeline() {
         <SectionHeader
           tag="Notre Histoire"
           title="3 ans d'expertise, une trajectoire"
-          description="De trois ingénieurs passionnés à plus de 30 experts, retracez les étapes clés qui ont façonné NOISIM."
+          description="En seulement quelques années, NOISIM a su transformer son expertise technique en une offre de solutions innovantes au service de plusieurs secteurs stratégiques."
           className="mb-20"
         />
 
@@ -80,7 +91,7 @@ export function AboutTimeline() {
             {milestones.map((m, i) => {
               const isLeft = m.side === 'left'
               return (
-                <AnimatedSection key={m.year} delay={i * 80}>
+                <AnimatedSection key={`${m.year}-${i}`} delay={i * 80}>
                   <div className={`relative grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-0 items-center ${i < milestones.length - 1 ? 'pb-12' : ''}`}>
 
                     {/* Left content */}

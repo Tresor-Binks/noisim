@@ -27,7 +27,6 @@ export default function AboutPage() {
       <AboutValues />
       <AboutTimeline />
       <AboutTeam />
-      <AboutPartners />
       <AboutWhyUs />
       <CTASection />
     </>
