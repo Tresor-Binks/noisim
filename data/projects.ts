@@ -32,6 +32,6 @@ export const projects: Project[] = [
       'Temps réel',
     ],
     featured: true,
-    imageUrl: '/TCS.jpg',
+    imageUrl: '/TCS.png',
   },
 ]
