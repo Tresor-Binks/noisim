@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import { MapPin, Phone, Mail, Clock, MessageCircle } from 'lucide-react'
 import { AnimatedSection } from '@/components/shared/AnimatedSection'
 import { ContactForm } from '@/components/sections/ContactForm'
@@ -56,8 +57,10 @@ export default function ContactPage() {
           }}
           aria-hidden
         />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-64 bg-primary/10 rounded-full blur-[100px] pointer-events-none" aria-hidden />
-
+        <div
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-64 bg-primary/10 rounded-full blur-[100px] pointer-events-none"
+          aria-hidden
+        />
         <div className="container-custom relative z-10 text-center">
           <AnimatedSection>
             <div className="flex items-center justify-center gap-3 mb-7">
@@ -72,22 +75,22 @@ export default function ContactPage() {
               </span>
             </h1>
             <p className="text-xl text-gray-300 leading-relaxed max-w-xl mx-auto">
-              Un devis, une question technique ou une idée à creuser — nos experts vous répondent
+              Un devis, une question technique ou une candidature — nos équipes vous répondent
               sous 24 heures ouvrées.
             </p>
           </AnimatedSection>
         </div>
       </section>
 
-      {/* ── MAIN CONTENT ──────────────────────────────────────── */}
+      {/* ── MAIN ──────────────────────────────────────────────── */}
       <section className="section-padding bg-surface">
         <div className="container-custom">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 items-start">
 
-            {/* ── LEFT: Contact Info ────────────────────────── */}
+            {/* LEFT — infos */}
             <AnimatedSection direction="left" className="space-y-5">
 
-              {/* WhatsApp CTA */}
+              {/* WhatsApp */}
               <a
                 href="https://wa.me/242067612121"
                 target="_blank"
@@ -105,7 +108,6 @@ export default function ContactPage() {
                 </div>
               </a>
 
-              {/* Contact info cards */}
               {contactInfo.map((info) => (
                 <div
                   key={info.title}
@@ -118,11 +120,7 @@ export default function ContactPage() {
                     <p className="font-bold text-secondary text-sm mb-1">{info.title}</p>
                     {info.lines.map((line, i) =>
                       info.links?.[i] ? (
-                        <a
-                          key={line}
-                          href={info.links[i]}
-                          className="block text-gray-600 text-sm hover:text-primary transition-colors"
-                        >
+                        <a key={line} href={info.links[i]} className="block text-gray-600 text-sm hover:text-primary transition-colors">
                           {line}
                         </a>
                       ) : (
@@ -133,7 +131,7 @@ export default function ContactPage() {
                 </div>
               ))}
 
-              {/* Map placeholder */}
+              {/* Zone */}
               <div className="bg-gradient-to-br from-secondary to-dark rounded-2xl p-5 relative overflow-hidden">
                 <div
                   className="absolute inset-0 opacity-[0.06]"
@@ -147,27 +145,27 @@ export default function ContactPage() {
                 <div className="relative z-10">
                   <div className="flex items-center gap-2 mb-3">
                     <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-                    <span className="text-primary text-xs font-bold uppercase tracking-widest">
-                      Présence régionale
-                    </span>
+                    <span className="text-primary text-xs font-bold uppercase tracking-widest">Présence régionale</span>
                   </div>
                   <p className="text-white font-bold mb-1">Congo-Brazzaville</p>
                   <p className="text-gray-400 text-xs leading-relaxed">
-                    Interventions à Pointe-Noire, Brazzaville et sur tout le territoire national.
-                    Projets régionaux en Afrique centrale.
+                    Interventions à Pointe-Noire, Brazzaville et sur tout le territoire national. Projets en Afrique centrale.
                   </p>
                 </div>
               </div>
             </AnimatedSection>
 
-            {/* ── RIGHT: Form ───────────────────────────────── */}
+            {/* RIGHT — form */}
             <AnimatedSection direction="right" className="lg:col-span-2">
               <div className="bg-white border border-gray-100 rounded-3xl p-8 shadow-card">
                 <h2 className="text-2xl font-black text-secondary mb-2">Envoyez-nous un message</h2>
                 <p className="text-gray-500 text-sm mb-8">
                   Tous les champs marqués <span className="text-primary">*</span> sont obligatoires.
                 </p>
-                <ContactForm subjects={subjects} />
+                {/* Suspense requis car ContactForm utilise useSearchParams */}
+                <Suspense fallback={<div className="h-96 bg-surface animate-pulse rounded-xl" />}>
+                  <ContactForm subjects={subjects} />
+                </Suspense>
               </div>
             </AnimatedSection>
 
