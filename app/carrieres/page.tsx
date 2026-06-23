@@ -77,8 +77,6 @@ export const offers: JobOffer[] = [
     documents: [
       { key: 'cv',              label: 'CV à jour' },
       { key: 'lettre',          label: 'Lettre de motivation' },
-      { key: 'convention_stage',label: 'Convention de stage (établissement)' },
-      { key: 'releve_notes',    label: 'Dernier relevé de notes' },
     ],
     icon: GraduationCap,
     color: 'bg-emerald-100 text-emerald-600',
