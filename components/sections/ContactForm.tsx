@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -18,7 +18,7 @@ const DOC_LABELS: Record<string, string> = {
   releve_notes:     'Relevé de notes',
 }
 
-/* Documents affichés par défaut quand on choisit recrutement manuellement */
+/* Docs par défaut quand l'utilisateur choisit recrutement manuellement */
 const DEFAULT_RECRUITMENT_DOCS = ['cv', 'lettre']
 
 /* ── Schema Zod ─────────────────────────────────────────────────── */
@@ -39,21 +39,21 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>
 
-interface Props {
-  subjects: string[]
-}
+interface Props { subjects: string[] }
 
 export function ContactForm({ subjects }: Props) {
   const searchParams = useSearchParams()
 
-  const [submitted, setSubmitted]     = useState(false)
-  const [loading, setLoading]         = useState(false)
-  const [files, setFiles]             = useState<Record<string, File>>({})
-  const [fileErrors, setFileErrors]   = useState<Record<string, string>>({})
-  /* Docs exigés : soit depuis l'URL (?docs=cv,lettre), soit par défaut */
+  const [submitted, setSubmitted]   = useState(false)
+  const [loading, setLoading]       = useState(false)
+  const [files, setFiles]           = useState<Record<string, File>>({})
+  const [fileErrors, setFileErrors] = useState<Record<string, string>>({})
+  /*
+   * requiredDocs  : liste des clés de fichiers à demander
+   * offerDocs     : clés fixes venues d'une offre (URL ?docs=…) — ne bougent pas
+   */
   const [requiredDocs, setRequiredDocs] = useState<string[]>([])
-  /* true si les docs viennent d'une offre (URL), false = choix manuel */
-  const [docsFromOffer, setDocsFromOffer] = useState(false)
+  const offerDocs = useRef<string[]>([])   // stable, lu 1 seule fois depuis l'URL
 
   const {
     register,
@@ -69,66 +69,76 @@ export function ContactForm({ subjects }: Props) {
     sujetWatch?.toLowerCase().includes('recrutement') ||
     sujetWatch?.toLowerCase().includes('candidature')
 
-  /* ── Pré-remplissage URL ─────────────────────────────────────── */
+  /* ── Pré-remplissage URL — s'exécute une seule fois ─────────── */
   useEffect(() => {
     const sujet = searchParams.get('sujet')
     const poste = searchParams.get('poste')
     const docs  = searchParams.get('docs')
 
-    if (sujet) setValue('sujet', sujet)
+    if (sujet) setValue('sujet', sujet, { shouldDirty: true })
     if (poste) setValue('poste', poste)
 
     if (docs) {
-      setRequiredDocs(docs.split(',').filter(Boolean))
-      setDocsFromOffer(true)
+      const parsed = docs.split(',').filter(Boolean)
+      offerDocs.current = parsed   // mémorise les docs de l'offre
+      setRequiredDocs(parsed)      // les affiche immédiatement
     }
-  }, [searchParams, setValue])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])   // [] = une seule fois au montage
 
-  /* ── Quand le sujet bascule en recrutement sans docs d'offre ─── */
+  /* ── Réaction au changement de sujet (choix manuel) ─────────── */
   useEffect(() => {
-    if (isRecruitment && !docsFromOffer) {
+    // Si les docs viennent d'une offre, on ne touche à rien
+    if (offerDocs.current.length > 0) return
+
+    if (isRecruitment) {
+      // Choix manuel recrutement → CV + lettre par défaut
       setRequiredDocs(DEFAULT_RECRUITMENT_DOCS)
-    }
-    if (!isRecruitment) {
-      if (!docsFromOffer) setRequiredDocs([])
+    } else {
+      // Autre sujet → on vide tout
+      setRequiredDocs([])
       setFiles({})
       setFileErrors({})
     }
-  }, [isRecruitment, docsFromOffer])
+  }, [isRecruitment])
 
   /* ── Gestion fichiers ────────────────────────────────────────── */
   function handleFile(key: string, file: File | undefined) {
     if (!file) return
     if (file.type !== 'application/pdf') {
-      setFileErrors((prev) => ({ ...prev, [key]: 'Format PDF uniquement.' }))
+      setFileErrors((p) => ({ ...p, [key]: 'Format PDF uniquement.' }))
       return
     }
     if (file.size > 5 * 1024 * 1024) {
-      setFileErrors((prev) => ({ ...prev, [key]: 'Fichier trop lourd (max 5 Mo).' }))
+      setFileErrors((p) => ({ ...p, [key]: 'Fichier trop lourd (max 5 Mo).' }))
       return
     }
-    setFiles((prev) => ({ ...prev, [key]: file }))
-    setFileErrors((prev) => { const n = { ...prev }; delete n[key]; return n })
+    setFiles((p) => ({ ...p, [key]: file }))
+    setFileErrors((p) => { const n = { ...p }; delete n[key]; return n })
   }
 
   function removeFile(key: string) {
-    setFiles((prev) => { const n = { ...prev }; delete n[key]; return n })
+    setFiles((p) => { const n = { ...p }; delete n[key]; return n })
   }
 
-  /* ── Validation fichiers au submit ───────────────────────────── */
+  /* ── Validation fichiers obligatoires ────────────────────────── */
   function validateFiles(): boolean {
-    if (!isRecruitment || requiredDocs.length === 0) return true
-    const newErrors: Record<string, string> = {}
+    if (requiredDocs.length === 0) return true
+    const errs: Record<string, string> = {}
     requiredDocs.forEach((key) => {
-      if (!files[key]) newErrors[key] = 'Ce document est obligatoire.'
+      if (!files[key]) errs[key] = 'Ce document est obligatoire.'
     })
-    setFileErrors(newErrors)
-    return Object.keys(newErrors).length === 0
+    setFileErrors(errs)
+    return Object.keys(errs).length === 0
   }
 
   /* ── Soumission ──────────────────────────────────────────────── */
   async function onSubmit(data: FormData) {
-    if (!validateFiles()) return   // bloque si fichiers manquants
+    if (!validateFiles()) {
+      // Scroll vers la section documents
+      document.getElementById('docs-section')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      return
+    }
 
     try {
       setLoading(true)
@@ -143,16 +153,17 @@ export function ContactForm({ subjects }: Props) {
       })
 
       const res = await fetch('/api/contact', { method: 'POST', body: formData })
-      if (!res.ok) throw new Error()
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
 
       setSubmitted(true)
       reset()
       setFiles({})
       setFileErrors({})
       setRequiredDocs([])
-      setDocsFromOffer(false)
-    } catch {
-      alert("L'envoi a échoué. Veuillez réessayer ou nous contacter directement.")
+      offerDocs.current = []
+    } catch (err) {
+      console.error('Submit error:', err)
+      alert("L'envoi a échoué. Veuillez réessayer ou nous contacter directement par email.")
     } finally {
       setLoading(false)
     }
@@ -177,6 +188,10 @@ export function ContactForm({ subjects }: Props) {
       </div>
     )
   }
+
+  /* ── Afficher les zones de fichiers ? ───────────────────────── */
+  const showDocs = requiredDocs.length > 0 && isRecruitment
+  const uploadedCount = Object.keys(files).length
 
   /* ── Formulaire ──────────────────────────────────────────────── */
   return (
@@ -214,7 +229,7 @@ export function ContactForm({ subjects }: Props) {
       {isRecruitment && (
         <Field label="Poste souhaité" required error={errors.poste?.message}>
           <input
-            {...register('poste')}
+            {...register('poste', { required: isRecruitment ? 'Ce champ est obligatoire' : false })}
             placeholder="Ex : Technicien Systèmes & Réseaux"
             className={inputCls(!!errors.poste)}
           />
@@ -235,11 +250,11 @@ export function ContactForm({ subjects }: Props) {
         />
       </Field>
 
-      {/* ── Documents (recrutement) ───────────────────────────── */}
-      {isRecruitment && requiredDocs.length > 0 && (
-        <div className="rounded-2xl border border-primary/20 bg-primary/[0.03] p-5 space-y-4">
+      {/* ── Documents requis ─────────────────────────────────── */}
+      {showDocs && (
+        <div id="docs-section" className="rounded-2xl border border-primary/20 bg-primary/[0.03] p-5 space-y-4">
 
-          {/* Header */}
+          {/* En-tête */}
           <div>
             <p className="text-xs font-bold text-primary uppercase tracking-widest flex items-center gap-1.5 mb-1">
               <FileUp className="w-3.5 h-3.5" />
@@ -250,74 +265,65 @@ export function ContactForm({ subjects }: Props) {
             </p>
           </div>
 
-          {/* Progress indicator */}
-          <div className="flex items-center gap-2">
+          {/* Barre de progression */}
+          <div className="flex items-center gap-3">
             <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
               <div
                 className="h-full bg-primary rounded-full transition-all duration-500"
-                style={{ width: `${(Object.keys(files).length / requiredDocs.length) * 100}%` }}
+                style={{ width: `${(uploadedCount / requiredDocs.length) * 100}%` }}
               />
             </div>
-            <span className="text-[11px] font-semibold text-primary shrink-0">
-              {Object.keys(files).length} / {requiredDocs.length}
+            <span className={cn(
+              'text-[11px] font-bold shrink-0',
+              uploadedCount === requiredDocs.length ? 'text-green-600' : 'text-primary'
+            )}>
+              {uploadedCount} / {requiredDocs.length}
             </span>
           </div>
 
-          {/* Upload zones */}
+          {/* Zones d'upload */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {requiredDocs.map((key) => {
               const label    = DOC_LABELS[key] ?? key
               const uploaded = files[key]
-              const hasError = !!fileErrors[key]
+              const hasErr   = !!fileErrors[key]
 
               return (
                 <div key={key} className="flex flex-col gap-1">
                   {!uploaded ? (
-                    <label
-                      className={cn(
-                        'group flex flex-col items-center justify-center gap-2',
-                        'border-2 border-dashed rounded-xl p-4 cursor-pointer min-h-[96px]',
-                        'bg-white transition-all duration-200',
-                        hasError
-                          ? 'border-rose-400 bg-rose-50/40 hover:border-rose-500'
-                          : 'border-primary/25 hover:border-primary hover:bg-primary/4'
-                      )}
-                    >
+                    <label className={cn(
+                      'group flex flex-col items-center justify-center gap-2',
+                      'border-2 border-dashed rounded-xl p-4 cursor-pointer min-h-[96px]',
+                      'bg-white transition-all duration-200',
+                      hasErr
+                        ? 'border-rose-400 bg-rose-50/40 hover:border-rose-500'
+                        : 'border-primary/25 hover:border-primary hover:bg-primary/4'
+                    )}>
                       <input
                         type="file"
                         accept="application/pdf"
                         className="sr-only"
                         onChange={(e) => handleFile(key, e.target.files?.[0])}
                       />
-                      <div
-                        className={cn(
-                          'w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-200',
-                          hasError
-                            ? 'bg-rose-100 group-hover:bg-rose-200'
-                            : 'bg-primary/10 group-hover:bg-primary group-hover:scale-110'
-                        )}
-                      >
-                        <FileUp
-                          className={cn(
-                            'w-4 h-4 transition-colors',
-                            hasError
-                              ? 'text-rose-500'
-                              : 'text-primary group-hover:text-white'
-                          )}
-                        />
+                      <div className={cn(
+                        'w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-200',
+                        hasErr
+                          ? 'bg-rose-100 group-hover:bg-rose-200'
+                          : 'bg-primary/10 group-hover:bg-primary group-hover:scale-110'
+                      )}>
+                        <FileUp className={cn(
+                          'w-4 h-4 transition-colors',
+                          hasErr ? 'text-rose-500' : 'text-primary group-hover:text-white'
+                        )} />
                       </div>
                       <div className="text-center">
-                        <p
-                          className={cn(
-                            'text-xs font-semibold leading-tight transition-colors',
-                            hasError ? 'text-rose-600' : 'text-secondary group-hover:text-primary'
-                          )}
-                        >
+                        <p className={cn(
+                          'text-xs font-semibold leading-tight transition-colors',
+                          hasErr ? 'text-rose-600' : 'text-secondary group-hover:text-primary'
+                        )}>
                           {label}
                         </p>
-                        <p className="text-[10px] text-gray-400 mt-0.5">
-                          Cliquez pour choisir un PDF
-                        </p>
+                        <p className="text-[10px] text-gray-400 mt-0.5">Cliquez pour choisir un PDF</p>
                       </div>
                     </label>
                   ) : (
@@ -341,10 +347,10 @@ export function ContactForm({ subjects }: Props) {
                     </div>
                   )}
 
-                  {/* Erreur par document */}
-                  {hasError && (
-                    <p className="text-rose-500 text-[11px] flex items-center gap-1 ml-1">
-                      <span className="w-3 h-3 bg-rose-100 rounded-full flex items-center justify-center shrink-0 text-[8px] font-black">!</span>
+                  {/* Message d'erreur par document */}
+                  {hasErr && (
+                    <p className="text-rose-500 text-[11px] flex items-center gap-1.5 ml-1">
+                      <span className="w-3.5 h-3.5 bg-rose-100 rounded-full flex items-center justify-center shrink-0 text-[8px] font-black text-rose-600">!</span>
                       {fileErrors[key]}
                     </p>
                   )}
