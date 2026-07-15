@@ -35,9 +35,9 @@ export const offers: JobOffer[] = [
     id: 1,
     title: 'Technicien Systèmes & Réseaux',
     department: 'Infrastructure IT',
-    location: 'Burkina Faso',
+    location: 'Congo - Burkina Faso',
     type: 'CDD',
-    level: 'Bac+3',
+    level: 'Date limite: 30 Juillet 2026',
     description:
       'Dans le cadre du développement de nos activités, nous recherchons un Technicien Systèmes & Réseaux chargé de participer à l\'installation, la maintenance et l\'administration des infrastructures informatiques de nos clients et de l\'entreprise.',
     requirements: [
@@ -53,33 +53,11 @@ export const offers: JobOffer[] = [
       { key: 'lettre',        label: 'Lettre de motivation' },
       { key: 'diplome',       label: 'Diplôme Bac+3 (ou attestation)' },
       { key: 'piece_identite',label: 'Pièce d\'identité' },
+      { key: 'permis_de_conduire',label: 'Permis de conduire' },
+      { key: 'passport',label: 'Passport' },
     ],
     icon: Server,
     color: 'bg-blue-100 text-blue-600',
-  },
-  {
-    id: 2,
-    title: 'Technicien Systèmes & Réseaux (Stage)',
-    department: 'Infrastructure IT',
-    location: 'Burkina Faso',
-    type: 'Stage',
-    level: 'Débutant · Bac+3',
-    description:
-      'Nous recherchons un stagiaire Technicien Systèmes & Réseaux souhaitant développer ses compétences au sein d\'une équipe expérimentée. Le candidat participera aux opérations de support, de maintenance et de déploiement des solutions informatiques.',
-    requirements: [
-      'Bac+3 en Informatique, Réseaux ou domaine équivalent',
-      'Jeune diplômé ou étudiant en fin de cycle',
-      'Connaissances de base en réseaux et systèmes',
-      'Motivation à apprendre et à évoluer rapidement',
-      'Bon esprit d\'équipe et sens de l\'organisation',
-    ],
-    benefits: ['Stage encadré', 'Montée en compétences', 'Accompagnement technique', 'Possibilité d\'embauche'],
-    documents: [
-      { key: 'cv',              label: 'CV à jour' },
-      { key: 'lettre',          label: 'Lettre de motivation' },
-    ],
-    icon: GraduationCap,
-    color: 'bg-emerald-100 text-emerald-600',
   },
 ]
 
