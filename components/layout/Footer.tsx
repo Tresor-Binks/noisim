@@ -15,14 +15,14 @@ const footerSections = [
   },
   {
     title: 'Secteurs',
-    links: [
-      { label: 'Mobilité, Transport & Infrastructures Routières', href: '/services/mobilite-transport-infrastructures-routieres' },
-      { label: 'Énergie & Électricité Industrielle', href: '/services/energie-electricite-industrielle' },
-      { label: 'Automatisation, Régulation & Robotique', href: '/services/automatisation-regulation-robotique' },
-      { label: 'Sécurité Électronique & Protection Incendie', href: '/services/securite-electronique-protection-incendie' },
-      { label: 'Solutions Numériques & Gestion d’Actifs', href: '/services/solutions-numeriques-gestion-actifs' },
-      { label: 'Ingénierie & Technologies Biomédicales', href: '/services/ingenierie-technologies-biomedicales' },
-    ],
+    links:[
+      { label: 'Industries & Production', href: '/secteurs/industries-production' },
+      { label: 'Pétrole, Gaz & Énergie', href: '/secteurs/petrole-gaz-energie' },
+      { label: 'Infrastructures & Transport', href: '/secteurs/infrastructures-transport' },
+      { label: 'Santé & Biomédical', href: '/secteurs/sante-biomedical' },
+      { label: 'Bâtiment & Tertiaire', href: '/secteurs/batiment-tertiaire' },
+      { label: 'Institutions & Administrations', href: '/secteurs/institutions-administrations' },
+    ]
   },
   {
     title: 'Entreprise',
