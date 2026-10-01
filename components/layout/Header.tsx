@@ -22,7 +22,7 @@ const navItems = [
       { label: 'Ingénierie & Technologies Biomédicales', href: '/services/ingenierie-technologies-biomedicales' },
     ],
   },
-  { label: 'Réalisations', href: '/realisations' },
+  // { label: 'Réalisations', href: '/realisations' },
   { label: 'Secteurs', href: '/secteurs' },
   { label: 'Carrières', href: '/carrieres' },
 ]

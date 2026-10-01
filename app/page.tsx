@@ -20,7 +20,7 @@ export default function HomePage() {
       <StatsSection />
       <ServicesSection />
       <ProcessSection />
-      <ProjectsSection />
+      {/* <ProjectsSection /> */}
       <SectorsSection />
       <CEOWordSection />
       <CTASection />
