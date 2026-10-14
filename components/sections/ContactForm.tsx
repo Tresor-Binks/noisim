@@ -5,37 +5,64 @@ import { useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { Send, CheckCircle, Loader2, FileUp, X, File as FileIcon } from 'lucide-react'
+import { Send, CheckCircle, Loader2, FileUp, X, File as FileIcon, AlertCircle } from 'lucide-react'
 import { cn } from '@/lib/utils'
+
+/* ── Constantes ─────────────────────────────────────────────────── */
+const MAX_FILE_SIZE  = 5 * 1024 * 1024   // 5 Mo par fichier
+const MAX_TOTAL_SIZE = 8 * 1024 * 1024   // 8 Mo au total
 
 /* ── Labels lisibles par clé ────────────────────────────────────── */
 const DOC_LABELS: Record<string, string> = {
-  cv:               'CV à jour',
-  lettre:           'Lettre de motivation',
-  diplome:          'Diplôme / Attestation',
-  piece_identite:   "Pièce d'identité",
-  convention_stage: 'Convention de stage',
-  releve_notes:     'Relevé de notes',
+  cv:                 'CV à jour',
+  lettre:             'Lettre de motivation',
+  diplome:            'Diplôme / Attestation',
+  piece_identite:     "Pièce d'identité",
+  convention_stage:   'Convention de stage',
+  releve_notes:       'Relevé de notes',
+  permis_de_conduire: 'Permis de conduire',
+  passport:           'Passeport',
 }
 
 /* Docs par défaut quand l'utilisateur choisit recrutement manuellement */
 const DEFAULT_RECRUITMENT_DOCS = ['cv', 'lettre']
 
+function isRecruitmentSubject(sujet?: string) {
+  const s = (sujet ?? '').toLowerCase()
+  return s.includes('recrutement') || s.includes('candidature')
+}
+
+function formatSize(bytes: number) {
+  return bytes >= 1024 * 1024
+    ? `${(bytes / 1024 / 1024).toFixed(1)} Mo`
+    : `${Math.max(1, Math.round(bytes / 1024))} Ko`
+}
+
 /* ── Schema Zod ─────────────────────────────────────────────────── */
-const schema = z.object({
-  nom:        z.string().min(2, 'Le nom doit contenir au moins 2 caractères'),
-  entreprise: z.string().optional(),
-  email:      z.string().email('Adresse email invalide'),
-  telephone:  z
-    .string()
-    .regex(/^[+\d\s\-().]{7,20}$/, 'Numéro invalide')
-    .optional()
-    .or(z.literal('')),
-  sujet:   z.string().min(1, 'Veuillez choisir un sujet'),
-  poste:   z.string().optional(),
-  message: z.string().min(20, 'Le message doit contenir au moins 20 caractères'),
-  rgpd:    z.boolean().refine((v) => v === true, 'Vous devez accepter la politique de confidentialité'),
-})
+const schema = z
+  .object({
+    nom:        z.string().min(2, 'Le nom doit contenir au moins 2 caractères'),
+    entreprise: z.string().optional(),
+    email:      z.string().email('Adresse email invalide'),
+    telephone:  z
+      .string()
+      .regex(/^[+\d\s\-().]{7,20}$/, 'Numéro invalide')
+      .optional()
+      .or(z.literal('')),
+    sujet:   z.string().min(1, 'Veuillez choisir un sujet'),
+    poste:   z.string().optional(),
+    message: z.string().min(20, 'Le message doit contenir au moins 20 caractères'),
+    rgpd:    z.boolean().refine((v) => v === true, 'Vous devez accepter la politique de confidentialité'),
+  })
+  .superRefine((data, ctx) => {
+    if (isRecruitmentSubject(data.sujet) && !(data.poste ?? '').trim()) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['poste'],
+        message: 'Ce champ est obligatoire',
+      })
+    }
+  })
 
 type FormData = z.infer<typeof schema>
 
@@ -46,14 +73,15 @@ export function ContactForm({ subjects }: Props) {
 
   const [submitted, setSubmitted]   = useState(false)
   const [loading, setLoading]       = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
   const [files, setFiles]           = useState<Record<string, File>>({})
   const [fileErrors, setFileErrors] = useState<Record<string, string>>({})
   /*
-   * requiredDocs  : liste des clés de fichiers à demander
-   * offerDocs     : clés fixes venues d'une offre (URL ?docs=…) — ne bougent pas
+   * requiredDocs : liste des clés de fichiers à demander
+   * offerDocs    : clés fixes venues d'une offre (URL ?docs=…) — lues 1 seule fois
    */
   const [requiredDocs, setRequiredDocs] = useState<string[]>([])
-  const offerDocs = useRef<string[]>([])   // stable, lu 1 seule fois depuis l'URL
+  const offerDocs = useRef<string[]>([])
 
   const {
     register,
@@ -62,14 +90,21 @@ export function ContactForm({ subjects }: Props) {
     setValue,
     formState: { errors },
     reset,
-  } = useForm<FormData>({ resolver: zodResolver(schema) })
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      nom: '', entreprise: '', email: '', telephone: '',
+      sujet: '', poste: '', message: '', rgpd: false,
+    },
+  })
 
-  const sujetWatch = watch('sujet')
-  const isRecruitment =
-    sujetWatch?.toLowerCase().includes('recrutement') ||
-    sujetWatch?.toLowerCase().includes('candidature')
+  const sujetWatch    = watch('sujet')
+  const isRecruitment = isRecruitmentSubject(sujetWatch)
 
-  /* ── Pré-remplissage URL — s'exécute une seule fois ─────────── */
+  /* Documents réellement actifs : seulement en mode recrutement */
+  const activeDocs = isRecruitment ? requiredDocs : []
+
+  /* ── Pré-remplissage URL — une seule fois ───────────────────── */
   useEffect(() => {
     const sujet = searchParams.get('sujet')
     const poste = searchParams.get('poste')
@@ -79,23 +114,21 @@ export function ContactForm({ subjects }: Props) {
     if (poste) setValue('poste', poste)
 
     if (docs) {
-      const parsed = docs.split(',').filter(Boolean)
-      offerDocs.current = parsed   // mémorise les docs de l'offre
-      setRequiredDocs(parsed)      // les affiche immédiatement
+      const parsed = docs.split(',').map((d) => d.trim()).filter(Boolean)
+      offerDocs.current = parsed
+      setRequiredDocs(parsed)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])   // [] = une seule fois au montage
+  }, [])
 
   /* ── Réaction au changement de sujet (choix manuel) ─────────── */
   useEffect(() => {
-    // Si les docs viennent d'une offre, on ne touche à rien
+    // Si les docs viennent d'une offre, on ne touche pas à la liste
     if (offerDocs.current.length > 0) return
 
     if (isRecruitment) {
-      // Choix manuel recrutement → CV + lettre par défaut
       setRequiredDocs(DEFAULT_RECRUITMENT_DOCS)
     } else {
-      // Autre sujet → on vide tout
       setRequiredDocs([])
       setFiles({})
       setFileErrors({})
@@ -105,14 +138,28 @@ export function ContactForm({ subjects }: Props) {
   /* ── Gestion fichiers ────────────────────────────────────────── */
   function handleFile(key: string, file: File | undefined) {
     if (!file) return
-    if (file.type !== 'application/pdf') {
+
+    const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')
+    if (!isPdf) {
       setFileErrors((p) => ({ ...p, [key]: 'Format PDF uniquement.' }))
       return
     }
-    if (file.size > 5 * 1024 * 1024) {
+    if (file.size > MAX_FILE_SIZE) {
       setFileErrors((p) => ({ ...p, [key]: 'Fichier trop lourd (max 5 Mo).' }))
       return
     }
+
+    const othersTotal = Object.entries(files)
+      .filter(([k]) => k !== key)
+      .reduce((sum, [, f]) => sum + f.size, 0)
+    if (othersTotal + file.size > MAX_TOTAL_SIZE) {
+      setFileErrors((p) => ({
+        ...p,
+        [key]: 'Taille totale des documents trop élevée (max 8 Mo). Compressez vos PDF.',
+      }))
+      return
+    }
+
     setFiles((p) => ({ ...p, [key]: file }))
     setFileErrors((p) => { const n = { ...p }; delete n[key]; return n })
   }
@@ -123,9 +170,9 @@ export function ContactForm({ subjects }: Props) {
 
   /* ── Validation fichiers obligatoires ────────────────────────── */
   function validateFiles(): boolean {
-    if (requiredDocs.length === 0) return true
+    if (activeDocs.length === 0) return true
     const errs: Record<string, string> = {}
-    requiredDocs.forEach((key) => {
+    activeDocs.forEach((key) => {
       if (!files[key]) errs[key] = 'Ce document est obligatoire.'
     })
     setFileErrors(errs)
@@ -134,8 +181,9 @@ export function ContactForm({ subjects }: Props) {
 
   /* ── Soumission ──────────────────────────────────────────────── */
   async function onSubmit(data: FormData) {
+    setSubmitError(null)
+
     if (!validateFiles()) {
-      // Scroll vers la section documents
       document.getElementById('docs-section')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
       return
     }
@@ -148,12 +196,29 @@ export function ContactForm({ subjects }: Props) {
         if (v !== undefined && v !== null) formData.append(k, String(v))
       })
 
-      Object.entries(files).forEach(([key, file]) => {
-        formData.append(`file_${key}`, file)
-      })
+      // N'envoie que les fichiers des documents actifs
+      if (activeDocs.length > 0) {
+        formData.append('required_docs', activeDocs.join(','))
+        activeDocs.forEach((key) => {
+          const file = files[key]
+          if (file) formData.append(`file_${key}`, file, file.name)
+        })
+      }
 
       const res = await fetch('/api/contact', { method: 'POST', body: formData })
-      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+
+      if (!res.ok) {
+        let serverMsg = ''
+        try {
+          const json = await res.json()
+          serverMsg = json?.error ?? ''
+        } catch { /* réponse non JSON (ex. 413 du proxy) */ }
+
+        if (res.status === 413) {
+          throw new Error(serverMsg || 'Les documents sont trop volumineux. Compressez vos PDF (8 Mo max au total).')
+        }
+        throw new Error(serverMsg || `Erreur serveur (${res.status})`)
+      }
 
       setSubmitted(true)
       reset()
@@ -163,7 +228,11 @@ export function ContactForm({ subjects }: Props) {
       offerDocs.current = []
     } catch (err) {
       console.error('Submit error:', err)
-      alert("L'envoi a échoué. Veuillez réessayer ou nous contacter directement par email.")
+      setSubmitError(
+        err instanceof Error && err.message
+          ? err.message
+          : "L'envoi a échoué. Veuillez réessayer ou nous contacter directement par email."
+      )
     } finally {
       setLoading(false)
     }
@@ -189,9 +258,10 @@ export function ContactForm({ subjects }: Props) {
     )
   }
 
-  /* ── Afficher les zones de fichiers ? ───────────────────────── */
-  const showDocs = requiredDocs.length > 0 && isRecruitment
-  const uploadedCount = Object.keys(files).length
+  /* ── Affichage des zones de fichiers ─────────────────────────── */
+  const showDocs        = activeDocs.length > 0
+  const uploadedCount   = activeDocs.filter((k) => files[k]).length
+  const totalUploadedSz = activeDocs.reduce((sum, k) => sum + (files[k]?.size ?? 0), 0)
 
   /* ── Formulaire ──────────────────────────────────────────────── */
   return (
@@ -229,7 +299,7 @@ export function ContactForm({ subjects }: Props) {
       {isRecruitment && (
         <Field label="Poste souhaité" required error={errors.poste?.message}>
           <input
-            {...register('poste', { required: isRecruitment ? 'Ce champ est obligatoire' : false })}
+            {...register('poste')}
             placeholder="Ex : Technicien Systèmes & Réseaux"
             className={inputCls(!!errors.poste)}
           />
@@ -254,14 +324,13 @@ export function ContactForm({ subjects }: Props) {
       {showDocs && (
         <div id="docs-section" className="rounded-2xl border border-primary/20 bg-primary/[0.03] p-5 space-y-4">
 
-          {/* En-tête */}
           <div>
             <p className="text-xs font-bold text-primary uppercase tracking-widest flex items-center gap-1.5 mb-1">
               <FileUp className="w-3.5 h-3.5" />
               Documents requis
             </p>
             <p className="text-[11px] text-gray-400">
-              Tous les documents sont obligatoires · PDF uniquement · 5 Mo max par fichier
+              Tous les documents sont obligatoires · PDF uniquement · 5 Mo max par fichier · 8 Mo max au total
             </p>
           </div>
 
@@ -270,20 +339,26 @@ export function ContactForm({ subjects }: Props) {
             <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
               <div
                 className="h-full bg-primary rounded-full transition-all duration-500"
-                style={{ width: `${(uploadedCount / requiredDocs.length) * 100}%` }}
+                style={{ width: `${(uploadedCount / activeDocs.length) * 100}%` }}
               />
             </div>
             <span className={cn(
               'text-[11px] font-bold shrink-0',
-              uploadedCount === requiredDocs.length ? 'text-green-600' : 'text-primary'
+              uploadedCount === activeDocs.length ? 'text-green-600' : 'text-primary'
             )}>
-              {uploadedCount} / {requiredDocs.length}
+              {uploadedCount} / {activeDocs.length}
             </span>
           </div>
 
+          {totalUploadedSz > 0 && (
+            <p className="text-[11px] text-gray-400 -mt-2">
+              Taille totale : {formatSize(totalUploadedSz)} / 8 Mo
+            </p>
+          )}
+
           {/* Zones d'upload */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {requiredDocs.map((key) => {
+            {activeDocs.map((key) => {
               const label    = DOC_LABELS[key] ?? key
               const uploaded = files[key]
               const hasErr   = !!fileErrors[key]
@@ -301,9 +376,12 @@ export function ContactForm({ subjects }: Props) {
                     )}>
                       <input
                         type="file"
-                        accept="application/pdf"
+                        accept="application/pdf,.pdf"
                         className="sr-only"
-                        onChange={(e) => handleFile(key, e.target.files?.[0])}
+                        onChange={(e) => {
+                          handleFile(key, e.target.files?.[0])
+                          e.target.value = '' // permet de re-sélectionner le même fichier
+                        }}
                       />
                       <div className={cn(
                         'w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-200',
@@ -334,7 +412,7 @@ export function ContactForm({ subjects }: Props) {
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-semibold text-green-800">{label}</p>
                         <p className="text-[10px] text-green-600 truncate mt-0.5">{uploaded.name}</p>
-                        <p className="text-[10px] text-green-500">{(uploaded.size / 1024).toFixed(0)} Ko</p>
+                        <p className="text-[10px] text-green-500">{formatSize(uploaded.size)}</p>
                       </div>
                       <button
                         type="button"
@@ -347,7 +425,6 @@ export function ContactForm({ subjects }: Props) {
                     </div>
                   )}
 
-                  {/* Message d'erreur par document */}
                   {hasErr && (
                     <p className="text-rose-500 text-[11px] flex items-center gap-1.5 ml-1">
                       <span className="w-3.5 h-3.5 bg-rose-100 rounded-full flex items-center justify-center shrink-0 text-[8px] font-black text-rose-600">!</span>
@@ -377,6 +454,14 @@ export function ContactForm({ subjects }: Props) {
           <p className="text-rose-500 text-xs mt-1 ml-7">{errors.rgpd.message}</p>
         )}
       </div>
+
+      {/* Erreur d'envoi */}
+      {submitError && (
+        <div role="alert" className="flex items-start gap-2.5 bg-rose-50 border border-rose-200 text-rose-700 rounded-xl px-4 py-3 text-sm">
+          <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
+          <span>{submitError}</span>
+        </div>
+      )}
 
       {/* Submit */}
       <button
