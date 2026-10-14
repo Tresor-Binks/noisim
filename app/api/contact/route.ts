@@ -74,9 +74,22 @@ export async function POST(req: Request) {
       sujet.toLowerCase().includes('recrutement') ||
       sujet.toLowerCase().includes('candidature')
 
-    const toEmail = isRecruitment
-      ? process.env.CONTACT_EMAIL_RECRUTEMENT
-      : process.env.CONTACT_EMAIL
+    // Vérification explicite des variables d'environnement
+    const emailContact     = process.env.CONTACT_EMAIL
+    const emailRecrutement = process.env.CONTACT_EMAIL_RECRUTEMENT
+
+    if (!emailContact) {
+      console.error('MISSING ENV: CONTACT_EMAIL is not defined')
+      return NextResponse.json({ success: false, error: 'Configuration email manquante' }, { status: 500 })
+    }
+    if (isRecruitment && !emailRecrutement) {
+      console.error('MISSING ENV: CONTACT_EMAIL_RECRUTEMENT is not defined')
+      return NextResponse.json({ success: false, error: 'Configuration email recrutement manquante' }, { status: 500 })
+    }
+
+    const toEmail = isRecruitment ? emailRecrutement! : emailContact
+
+    console.log(`[NOISIM Contact] Sujet: "${sujet}" → isRecruitment: ${isRecruitment} → to: ${toEmail}`)
 
     const now = new Date().toLocaleString('fr-FR', {
       timeZone: 'Africa/Brazzaville',

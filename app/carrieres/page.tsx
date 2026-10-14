@@ -3,7 +3,7 @@ import Link from 'next/link'
 import {
   MapPin, Briefcase, Clock, ArrowRight, ChevronRight,
   Rocket, Users, BookOpen, TrendingUp,
-  Server, GraduationCap, FileText,
+  Server, GraduationCap, FileText, BriefcaseBusiness, Network,
 } from 'lucide-react'
 import { AnimatedSection } from '@/components/shared/AnimatedSection'
 import { SectionHeader } from '@/components/shared/SectionHeader'
@@ -58,6 +58,72 @@ export const offers: JobOffer[] = [
     ],
     icon: Server,
     color: 'bg-blue-100 text-blue-600',
+  },
+  {
+  id: 2,
+  title: 'Agent Marketing & Prospection B2B',
+  department: 'Marketing & Développement Commercial',
+  location: 'Congo',
+  type: 'CDD',
+  level: 'Date limite: 15 Novembre 2026',
+  description:
+    'Dans le cadre du développement de nos activités, nous recherchons un Agent Marketing & Prospection B2B chargé d’identifier de nouvelles opportunités commerciales, de prospecter des entreprises, de présenter les solutions de NOISIM et de contribuer au développement de notre portefeuille clients.',
+  requirements: [
+    'Bonne maîtrise de la prospection commerciale B2B auprès des entreprises',
+    'Capacité à identifier, rechercher et qualifier des prospects',
+    'Aisance dans la prise de contact avec les décideurs et la présentation d’offres commerciales',
+    'Maîtrise des techniques de relance et de suivi des prospects',
+    'Excellentes capacités de communication et de négociation',
+    'Autonomie, dynamisme, persévérance et sens du résultat',
+    'Une expérience en prospection commerciale ou en développement B2B est un atout',
+  ],
+  benefits: [
+    'Rémunération selon les modalités du poste',
+    'Développement des compétences commerciales',
+    'Participation au développement de l’entreprise',
+    'Opportunités d’évolution professionnelle',
+  ],
+  documents: [
+    { key: 'cv', label: 'CV à jour' },
+    { key: 'lettre', label: 'Lettre de motivation' },
+  ],
+  icon: BriefcaseBusiness,
+  color: 'bg-pink-100 text-pink-600',
+  },
+  {
+  id: 3,
+  title: 'Technicien / Ingénieur Automatisme & Réseaux Industriels',
+  department: 'Automatisme & Maintenance Industrielle',
+  location: 'Congo',
+  type: 'CDD',
+  level: 'Date limite: 15 Novembre 2026',
+  description:
+    'Dans le cadre de nos activités industrielles, nous recherchons un Technicien / Ingénieur Automatisme & Réseaux Industriels chargé du diagnostic, du dépannage et de la remise en service des liaisons de communication entre les systèmes de supervision SCADA et les équipements de sécurité, notamment les détecteurs de gaz et de flamme, sur site industriel.',
+  requirements: [
+    'Formation BTS, DUT, Licence professionnelle, Master ou diplôme d’ingénieur en Automatisme, Génie électrique et informatique industrielle (GEII), Instrumentation ou Maintenance industrielle',
+    'Expérience professionnelle de 3 à 5 ans minimum en maintenance d’automatismes industriels ou de systèmes Fire & Gas (F&G)',
+    'Maîtrise des réseaux et protocoles industriels : Modbus RTU/TCP, Ethernet/IP, Profibus et Profinet',
+    'Compétences en diagnostic matériel des réseaux industriels : bus RS-485, résistances de terminaison, câbles Ethernet RJ45 et fibre optique',
+    'Maîtrise des outils d’analyse réseau tels que Wireshark, Modbus Poll ou Modbus Slave',
+    'Bonne connaissance des systèmes SCADA, des interfaces Homme-Machine (IHM), des modules Remote I/O et des passerelles de communication',
+    'Connaissance des chaînes de mesure 4-20 mA, des contacts secs, des boucles de sécurité Fire & Gas et des détecteurs de gaz et de flamme UV',
+    'Maîtrise des appareils de mesure : multimètre, calibrateur de boucle 4-20 mA et pince ampèremétrique',
+    'Habilitation électrique B2V, BR, BC, H0V ou équivalent industriel',
+    'Connaissance des règles HSE et des exigences de sécurité en zones ATEX et sur sites pétroliers ou gaziers',
+  ],
+  benefits: [
+    'Intervention sur des systèmes industriels critiques',
+    'Participation à des opérations de diagnostic et de maintenance spécialisées',
+    'Environnement technique exigeant',
+    'Possibilités de développement des compétences professionnelles',
+  ],
+  documents: [
+    { key: 'cv', label: 'CV à jour détaillant les expériences industrielles' },
+    { key: 'lettre', label: 'Lettre de motivation' },
+    { key: 'diplome', label: 'Diplômes et attestations de formation' },
+  ],
+  icon: Network,
+  color: 'bg-orange-100 text-orange-600',
   },
 ]
 
@@ -286,7 +352,6 @@ export default function CarrieresPage() {
         </div>
       </section>
 
-      <CTASection />
     </>
   )
 }
